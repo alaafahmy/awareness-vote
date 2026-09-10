@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>اختر المشارك المفضل — المسابقة النهائية 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #0a0e1a;
+      color: #f1f5f9;
+      font-family: 'Cairo', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .vote-page-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* شريط خطوات الإنجاز */
+    .steps-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      padding: 8px 18px;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #94a3b8;
+    }
+
+    .step-item.completed {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #34d399;
+    }
+
+    .step-item.active {
+      background: rgba(26, 115, 232, 0.15);
+      border-color: rgba(26, 115, 232, 0.5);
+      color: #60a5fa;
+      font-weight: 700;
+    }
+
+    /* رأس الصفحة */
+    .header-section {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(26, 115, 232, 0.12);
+      border: 1px solid rgba(26, 115, 232, 0.3);
+      color: #60a5fa;
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .main-title {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 900;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .main-title span {
+      background: linear-gradient(135deg, #60a5fa, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .sub-title {
+      color: #94a3b8;
+      font-size: 1.05rem;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    /* بطاقات المرشحين */
+    .candidates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .candidate-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 2px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 24px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(12px);
+    }
+
+    .candidate-card:hover {
+      border-color: rgba(96, 165, 250, 0.5);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .candidate-card.selected {
+      border-color: #3b82f6;
+      background: rgba(30, 58, 138, 0.25);
+      box-shadow: 0 0 0 2px #3b82f6, 0 12px 35px rgba(59, 130, 246, 0.2);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .avatar-wrapper {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #1e293b, #334155);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .select-indicator {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .candidate-card.selected .select-indicator {
+      border-color: #3b82f6;
+      background: #3b82f6;
+    }
+
+    .candidate-card.selected .select-indicator::after {
+      content: '✓';
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .lead-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 50px;
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+    }
+
+    .candidate-name {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #f8fafc;
+      margin-bottom: 4px;
+    }
+
+    .project-name {
+      font-size: 0.95rem;
+      color: #38bdf8;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .project-desc {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .stats-bar-wrapper {
+      margin-top: auto;
+    }
+
+    .stats-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .progress-bar-bg {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 1s ease;
+    }
+
+    /* زر التأكيد */
+    .submit-container {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .btn-confirm-vote {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      padding: 16px 48px;
+      font-size: 1.15rem;
+      font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.35);
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-confirm-vote:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(37, 99, 235, 0.5);
+    }
+
+    .btn-confirm-vote:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .error-alert {
+      display: none;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      margin-top: 16px;
+      animation: shake 0.4s ease;
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-8px);
+      }
+
+      75% {
+        transform: translateX(8px);
+      }
+    }
+
+    .footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 24px;
+      color: #64748b;
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="vote-page-container">
+
+    <!-- شريط تقدم الخطوات -->
+    <div class="steps-bar">
+      <div class="step-item completed">
+        <span>✓</span>
+        <span>التحقق من حساب Google</span>
+      </div>
+      <div class="step-item active">
+        <span>2</span>
+        <span>اختيار المرشح والتصويت</span>
+      </div>
+      <div class="step-item">
+        <span>3</span>
+        <span>تأكيد الاعتماد</span>
+      </div>
+    </div>
+
+    <!-- رأس الصفحة -->
+    <div class="header-section">
+      <div class="header-badge">
+        <span>🏆</span>
+        <span>المسابقة النهائية 2026</span>
+      </div>
+      <h1 class="main-title">اختر <span>مشاركك المفضل</span> للتصويت</h1>
+      <p class="sub-title">انقر على بطاقة المشارك الذي ترغب في منحه صوتك، ثم اضغط على زر "تأكيد وإرسال صوتي" بالأسفل.
+      </p>
+    </div>
+
+    <!-- شبكة المرشحين -->
+    <div class="candidates-grid" id="candidatesGrid">
+
+      <!-- مرشح 1 -->
+      <div class="candidate-card selected" onclick="selectCandidate(this, 'مازن خالد')">
+        <span class="lead-badge">🥇 المتصدر</span>
+        <div class="card-top">
+          <div class="avatar-wrapper">👨‍🎓</div>
+          <div class="select-indicator"></div>
+        </div>
+        <h3 class="candidate-name">مازن خالد</h3>
+        <div class="project-name"></div>
+        <p class="project-desc"> </p>
+        <div class="stats-bar-wrapper">
+          <div class="stats-label">
+            <span>نسبة الأصوات</span>
+            <span style="color:#60a5fa;">43% (12,847 صوت)</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 43%; background: linear-gradient(90deg, #3b82f6, #60a5fa);">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- مرشح 2 -->
+      <div class="candidate-card" onclick="selectCandidate(this, 'م. فيصل الشهري')">
+        <div class="card-top">
+          <div class="avatar-wrapper">👨‍💻</div>
+          <div class="select-indicator"></div>
+        </div>
+        <h3 class="candidate-name">م.علاء فهمي</h3>
+        <div class="project-name"></div>
+        <p class="project-desc"> </p>
+        <div class="stats-bar-wrapper">
+          <div class="stats-label">
+            <span>نسبة الأصوات</span>
+            <span style="color:#a855f7;">28% (8,412 صوت)</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 28%; background: linear-gradient(90deg, #9333ea, #c084fc);">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- مرشح 3 -->
+      <div class="candidate-card" onclick="selectCandidate(this, 'م. سارة العتيبي')">
+        <div class="card-top">
+          <div class="avatar-wrapper">👩‍🎓</div>
+          <div class="select-indicator"></div>
+        </div>
+        <h3 class="candidate-name">م. سارة العتيبي</h3>
+        <div class="project-name"></div>
+        <p class="project-desc"></p>
+        <div class="stats-bar-wrapper">
+          <div class="stats-label">
+            <span>نسبة الأصوات</span>
+            <span style="color:#ec4899;">19% (5,720 صوت)</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 19%; background: linear-gradient(90deg, #db2777, #f472b6);">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- مرشح 4 -->
+      <div class="candidate-card" onclick="selectCandidate(this, 'م. ريان الدوسري')">
+        <div class="card-top">
+          <div class="avatar-wrapper">👨‍🏫</div>
+          <div class="select-indicator"></div>
+        </div>
+        <h3 class="candidate-name">م. ريان الدوسري</h3>
+        <div class="project-name"></div>
+        <p class="project-desc"></p>
+        <div class="stats-bar-wrapper">
+          <div class="stats-label">
+            <span>نسبة الأصوات</span>
+            <span style="color:#10b981;">10% (3,105 صوت)</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 10%; background: linear-gradient(90deg, #059669, #34d399);">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- زر التأكيد -->
+    <div class="submit-container">
+      <button class="btn-confirm-vote" id="confirmBtn" onclick="submitVote()">
+        <span>🗳️</span>
+        <span>تأكيد وإرسال صوتي الآن</span>
+      </button>
+      <div class="error-alert" id="errorAlert">يرجى اختيار أحد المرشحين أولاً!</div>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    المسابقة النهائية 2026 — VoteNow — جميع الحقوق محفوظة
+  </footer>
+
+  <script>
+    // استخراج معرّف الجلسة من الرابط
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('id') || '';
+
+    let chosenCandidate = 'مازن خالد';
+
+    function selectCandidate(cardEl, candidateName) {
+      document.querySelectorAll('.candidate-card').forEach(c => c.classList.remove('selected'));
+      cardEl.classList.add('selected');
+      chosenCandidate = candidateName;
+      document.getElementById('errorAlert').style.display = 'none';
+    }
+
+    async function submitVote() {
+      if (!chosenCandidate) {
+        document.getElementById('errorAlert').style.display = 'block';
+        return;
+      }
+
+      const btn = document.getElementById('confirmBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner" style="width:20px;height:20px;border-width:2px;display:inline-block;"></span> جارٍ تسجيل صوتك وتوثيقه...';
+
+      try {
+        if (sessionId) {
+          await fetch('/api/vote', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: sessionId, candidate: chosenCandidate })
+          });
+        }
+      } catch (err) {
+        console.warn('Vote submission error:', err);
+      }
+
+      // توجيه المستخدم مباشرة إلى صفحة الشكر والانتظار
+      setTimeout(() => {
+        window.location.href = `thankyou.html?id=${sessionId}&candidate=${encodeURIComponent(chosenCandidate)}`;
+      }, 900);
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المسابقة النهائية 2026 — صوّت لأفضل مشارك</title>
+  <meta name="description"
+    content="شارك في التصويت واختر المشارك الأفضل لتحصل على فرصة الفوز بـ iPhone 17 Pro Max مع نخبة من المبدعين الشباب">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #818cf8;
+      --accent: #f59e0b;
+      --bg: #050814;
+      --bg-card: rgba(13, 18, 40, 0.8);
+      --border: rgba(255, 255, 255, 0.07);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== خلفية ===== */
+    .bg-noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(79, 70, 229, 0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 70% 60% at 80% 110%, rgba(139, 92, 246, 0.14) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 50% 50%, rgba(245, 158, 11, 0.04) 0%, transparent 70%);
+    }
+
+    /* ===== شريط الأخبار ===== */
+    .ticker-bar {
+      background: linear-gradient(90deg, #312e81, #4338ca, #6d28d9);
+      padding: 10px 0;
+      overflow: hidden;
+      position: relative;
+      z-index: 10;
+    }
+
+    .ticker-track {
+      display: flex;
+      gap: 72px;
+      animation: scroll 28s linear infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes scroll {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    .ticker-item {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ticker-item::after {
+      content: '◆';
+      font-size: 0.5rem;
+      opacity: 0.5;
+    }
+
+    /* ===== Navbar ===== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5, 8, 20, 0.75);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: white;
+      text-decoration: none;
+    }
+
+    .nav-logo-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      box-shadow: 0 0 16px rgba(79, 70, 229, 0.45);
+    }
+
+    .nav-logo-text {
+      background: linear-gradient(135deg, #818cf8, #c4b5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .nav-cta {
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: white;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(79, 70, 229, 0.35);
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(79, 70, 229, 0.55);
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 70px 20px 50px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #f87171;
+      padding: 7px 18px;
+      border-radius: 50px;
+      font-size: 0.83rem;
+      font-weight: 800;
+      margin-bottom: 24px;
+      animation: fadeUp 0.5s ease;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: #ef4444;
+      border-radius: 50%;
+      animation: blink 1.2s infinite;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.2;
+      }
+    }
+
+    .hero-title {
+      font-size: clamp(2.1rem, 5.5vw, 4rem);
+      font-weight: 900;
+      line-height: 1.18;
+      margin-bottom: 20px;
+      animation: fadeUp 0.5s 0.1s ease both;
+    }
+
+    .hero-title .prize-text {
+      background: linear-gradient(135deg, #fbbf24, #f97316, #ef4444);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: block;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 560px;
+      line-height: 1.65;
+      margin-bottom: 40px;
+      animation: fadeUp 0.5s 0.18s ease both;
+    }
+
+    .hero-sub strong {
+      color: #a5b4fc;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== إحصائيات سريعة ===== */
+    .quick-stats {
+      display: flex;
+      gap: 28px;
+      margin-bottom: 40px;
+      animation: fadeUp 0.5s 0.24s ease both;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .qs-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .qs-num {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    /* ===== Countdown ===== */
+    .countdown-wrapper {
+      margin-bottom: 44px;
+      animation: fadeUp 0.5s 0.28s ease both;
+    }
+
+    .countdown-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+    }
+
+    .countdown {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .cd-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 22px;
+      min-width: 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cd-block::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), transparent);
+    }
+
+    .cd-num {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #818cf8;
+      display: block;
+      line-height: 1;
+      position: relative;
+    }
+
+    .cd-lbl {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: relative;
+    }
+
+    /* ===== البطاقة الرئيسية ===== */
+    .vote-card-wrapper {
+      animation: fadeUp 0.5s 0.35s ease both;
+      width: 100%;
+      max-width: 680px;
+    }
+
+    .vote-card {
+      background: rgba(13, 18, 40, 0.7);
+      border: 1px solid rgba(79, 70, 229, 0.2);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(79, 70, 229, 0.08),
+        0 24px 80px rgba(0, 0, 0, 0.5),
+        0 0 60px rgba(79, 70, 229, 0.06);
+      transition: box-shadow 0.3s;
+      backdrop-filter: blur(12px);
+    }
+
+    .vote-card:hover {
+      box-shadow:
+        0 0 0 1px rgba(79, 70, 229, 0.25),
+        0 32px 100px rgba(0, 0, 0, 0.6),
+        0 0 80px rgba(79, 70, 229, 0.12);
+    }
+
+    /* منطقة الصورة */
+    .card-visual {
+      height: 220px;
+      background: linear-gradient(135deg, #0c1132 0%, #1a0e3d 50%, #0c1132 100%);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .card-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 60%, rgba(79, 70, 229, 0.25) 0%, transparent 65%),
+        url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234f46e5' fill-opacity='0.04'%3E%3Cpath d='M20 20L0 0h40L20 20zM20 20L0 40h40L20 20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .first-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 6px 14px;
+      border-radius: 50px;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+    }
+
+    .card-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      border: 4px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.4rem;
+      position: relative;
+      z-index: 1;
+      animation: floatAnim 4s ease-in-out infinite;
+      box-shadow: 0 0 40px rgba(79, 70, 229, 0.4);
+    }
+
+    @keyframes floatAnim {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    /* محتوى البطاقة */
+    .card-body {
+      padding: 28px 32px 32px;
+    }
+
+    .candidate-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 12px;
+    }
+
+    .candidate-name {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: white;
+      margin-bottom: 4px;
+    }
+
+    .candidate-tag {
+      font-size: 0.82rem;
+      color: #818cf8;
+      font-weight: 600;
+    }
+
+    .category-pill {
+      background: rgba(79, 70, 229, 0.15);
+      border: 1px solid rgba(79, 70, 229, 0.3);
+      color: #a5b4fc;
+      padding: 5px 12px;
+      border-radius: 50px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* شريط التصويت والإحصاء */
+    .stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 18px;
+      text-align: center;
+    }
+
+    .stat-val {
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: #818cf8;
+      display: block;
+    }
+
+    .stat-lbl {
+      font-size: 0.77rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* شريط التقدم */
+    .progress-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .progress-track {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #4f46e5, #818cf8, #c4b5fd);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      from {
+        transform: translateX(-100%);
+      }
+
+      to {
+        transform: translateX(200%);
+      }
+    }
+
+    /* زر التصويت */
+    .vote-btn {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed, #9333ea);
+      background-size: 200% 200%;
+      color: white;
+      border: none;
+      border-radius: 16px;
+      font-family: inherit;
+      font-size: 1.15rem;
+      font-weight: 900;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s;
+      animation: bgShift 4s ease infinite;
+      box-shadow: 0 8px 32px rgba(79, 70, 229, 0.4);
+      letter-spacing: 0.3px;
+    }
+
+    @keyframes bgShift {
+
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .vote-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 44px rgba(79, 70, 229, 0.55);
+    }
+
+    .vote-btn:active {
+      transform: translateY(0);
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ===== الجوائز ===== */
+    .prizes-section {
+      max-width: 680px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 28px;
+      animation: fadeUp 0.5s 0.42s ease both;
+    }
+
+    .prize-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px 16px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+
+    .prize-card:hover {
+      border-color: rgba(79, 70, 229, 0.3);
+      transform: translateY(-3px);
+    }
+
+    .prize-icon-wrap {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .prize-rank {
+      font-size: 0.77rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .prize-name {
+      font-size: 0.88rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #fbbf24, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ===== ميزات الثقة ===== */
+    .trust-bar {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 36px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      animation: fadeUp 0.5s 0.5s ease both;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .trust-icon {
+      color: #34d399;
+      font-size: 1rem;
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border);
+      margin-top: 60px;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="bg-noise"></div>
+
+  <!-- شريط الأخبار المتحرك -->
+  <div class="ticker-bar">
+    <div class="ticker-track">
+      <span class="ticker-item">🏆 المسابقة النهائية 2026</span>
+      <span class="ticker-item">📱 الجائزة الأولى: iPhone 17 Pro Max</span>
+      <span class="ticker-item">⏰ التصويت ينتهي قريباً — شارك الآن</span>
+      <span class="ticker-item">🌟 أكثر من 12,000 مشارك صوّتوا حتى الآن</span>
+      <span class="ticker-item">🔒 التصويت آمن وموثق إلكترونياً</span>
+      <span class="ticker-item">🏆 المسابقة النهائية 2026</span>
+      <span class="ticker-item">📱 الجائزة الأولى: iPhone 17 Pro Max</span>
+      <span class="ticker-item">⏰ التصويت ينتهي قريباً — شارك الآن</span>
+      <span class="ticker-item">🌟 أكثر من 12,000 مشارك صوّتوا حتى الآن</span>
+      <span class="ticker-item">🔒 التصويت آمن وموثق إلكترونياً</span>
+    </div>
+  </div>
+
+  <!-- شريط التنقل -->
+  <nav class="navbar">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">🏆</div>
+      <div>
+        <div class="nav-logo-text">VoteNow 2026</div>
+        <div class="nav-meta">منصةالتصويت</div>
+      </div>
+    </a>
+    <a href="#vote-section" class="nav-cta" onclick="handleVote(); return false;">صوّت الآن 🗳️</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="vote-section">
+
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      التصويت مفتوح الآن
+    </div>
+
+    <h1 class="hero-title">
+      صوّت لمشاركك المفضل لربح
+      <span class="prize-text">iPhone 17 Pro Max</span>
+    </h1>
+
+    <p class="hero-sub">
+      انضم لأكثر من <strong>12,000 مشارك</strong> وادعم المبدع الذي تعتقد أنه يستحق الفوز.
+      التصويت مجاني تماماً ويستغرق أقل من دقيقة.
+    </p>
+
+    <!-- إحصائيات سريعة -->
+    <div class="quick-stats">
+      <div class="qs-item">
+        <span>👥</span>
+        <span class="qs-num" id="participantCount">12,847</span>
+        <span>مشارك</span>
+      </div>
+      <div class="qs-item">
+        <span>🗳️</span>
+        <span class="qs-num">4</span>
+        <span>مرشحين في التنافس</span>
+      </div>
+      <div class="qs-item">
+        <span>🏅</span>
+        <span class="qs-num">3</span>
+        <span>جوائز مميزة</span>
+      </div>
+    </div>
+
+    <!-- العداد التنازلي -->
+    <div class="countdown-wrapper">
+      <p class="countdown-label">⏳ ينتهي باب التصويت خلال</p>
+      <div class="countdown">
+        <div class="cd-block">
+          <span class="cd-num" id="days">02</span>
+          <span class="cd-lbl">يوم</span>
+        </div>
+        <div class="cd-block">
+          <span class="cd-num" id="hours">14</span>
+          <span class="cd-lbl">ساعة</span>
+        </div>
+        <div class="cd-block">
+          <span class="cd-num" id="minutes">37</span>
+          <span class="cd-lbl">دقيقة</span>
+        </div>
+        <div class="cd-block">
+          <span class="cd-num" id="seconds">00</span>
+          <span class="cd-lbl">ثانية</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- البطاقة الرئيسية للمتصدر -->
+    <div class="vote-card-wrapper">
+      <div class="vote-card">
+
+        <!-- الصورة / الهيدر -->
+        <div class="card-visual">
+          <span class="first-badge">🥇 المتصدر بالأصوات</span>
+          <div class="card-avatar">👨‍🎓</div>
+        </div>
+
+        <!-- تفاصيل المرشح -->
+        <div class="card-body">
+          <div class="candidate-row">
+            <div>
+              <div class="candidate-name">مازن خالد</div>
+              <div class="candidate-tag">🏫 جامعة الملك سعود — قسم الحاسب وتقنية المعلومات</div>
+            </div>
+            <div class="category-pill">🌟 الأكثر تصويتاً</div>
+          </div>
+
+          <!-- إحصاء التصويت -->
+          <div class="stats-row">
+            <div class="stat-box">
+              <span class="stat-val" id="voteCount">12,847</span>
+              <span class="stat-lbl">إجمالي الأصوات</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-val">78%</span>
+              <span class="stat-lbl">نسبة الدعم</span>
+            </div>
+          </div>
+
+          <!-- شريط التقدم -->
+          <div class="progress-label-row">
+            <span>التقدم نحو هدف الأصوات</span>
+            <span style="color:#818cf8; font-weight:800;">78% من 16,000 صوت</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width: 78%;"></div>
+          </div>
+
+          <!-- زر التصويت الرئيسي -->
+          <button class="vote-btn" id="voteBtn" onclick="handleVote()">
+            <span>🗳️</span>
+            <span>صوّت الآن — مجاناً وبدون رسوم</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- قسم الجوائز -->
+    <div class="prizes-section">
+      <div class="prize-card">
+        <div class="prize-icon-wrap">🥇</div>
+        <div class="prize-rank">المركز الأول</div>
+        <div class="prize-name">iPhone 17 Pro Max</div>
+      </div>
+      <div class="prize-card">
+        <div class="prize-icon-wrap">🥈</div>
+        <div class="prize-rank">المركز الثاني</div>
+        <div class="prize-name">AirPods Pro 2</div>
+      </div>
+      <div class="prize-card">
+        <div class="prize-icon-wrap">🥉</div>
+        <div class="prize-rank">المركز الثالث</div>
+        <div class="prize-name">Apple Watch S10</div>
+      </div>
+    </div>
+
+    <!-- شريط الثقة -->
+    <div class="trust-bar">
+      <div class="trust-item">
+        <span class="trust-icon">✅</span>
+        <span>تصويت مجاني 100%</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon">🔒</span>
+        <span>اتصال آمن ومشفر</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon">📊</span>
+        <span>نتائج شفافة ومباشرة</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon">⚡</span>
+        <span>التحقق فوري من هويتك</span>
+      </div>
+    </div>
+
+  </section>
+
+  <footer class="footer">
+    جميع الحقوق محفوظة © 2026 VoteNow — منصة التصويت الرسمية
+  </footer>
+
+  <script>
+    // ===== عداد تنازلي =====
+    const endTime = new Date();
+    endTime.setDate(endTime.getDate() + 2);
+    endTime.setHours(endTime.getHours() + 14);
+
+    function updateCountdown() {
+      const diff = endTime - new Date();
+      if (diff <= 0) return;
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById('days').textContent = String(d).padStart(2, '0');
+      document.getElementById('hours').textContent = String(h).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(m).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(s).padStart(2, '0');
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // ===== محاكاة أصوات متزايدة =====
+    let votes = 12847;
+    setInterval(() => {
+      if (Math.random() > 0.45) {
+        votes += Math.floor(Math.random() * 4) + 1;
+        const fmt = votes.toLocaleString('ar-SA');
+        document.getElementById('voteCount').textContent = fmt;
+        document.getElementById('participantCount').textContent = fmt;
+      }
+    }, 3200);
+
+    // ===== زر التصويت =====
+    function handleVote() {
+      const btn = document.getElementById('voteBtn');
+      btn.innerHTML = '<span class="spinner"></span><span>جارٍ التحقق من حسابك...</span>';
+      btn.disabled = true;
+      btn.style.opacity = '0.85';
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 1300);
+    }
+  </script>
+</body>
+
+</html>

