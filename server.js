@@ -25,17 +25,40 @@ const EMAIL_CONFIG = {
 // ===================================================
 // قاعدة البيانات (ملف JSON محلي)
 // ===================================================
-const DB_FILE = path.join(__dirname, 'database.json');
+const DB_FILE = process.env.VERCEL 
+  ? path.join('/tmp', 'database.json') 
+  : path.join(__dirname, 'database.json');
+
+// ذاكرة احتياطية لضمان عمل السيرفر في البيئات السحابية
+if (!global.memRecords) {
+  global.memRecords = [];
+}
 
 function readDB() {
-  if (!fs.existsSync(DB_FILE)) {
-    fs.writeFileSync(DB_FILE, JSON.stringify({ records: [] }, null, 2), 'utf8');
+  try {
+    if (!fs.existsSync(DB_FILE)) {
+      fs.writeFileSync(DB_FILE, JSON.stringify({ records: global.memRecords }, null, 2), 'utf8');
+      return { records: global.memRecords };
+    }
+    const data = JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
+    if (Array.isArray(data.records)) {
+      global.memRecords = data.records;
+    }
+    return data;
+  } catch (err) {
+    return { records: global.memRecords };
   }
-  return JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
 }
 
 function writeDB(data) {
-  fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf8');
+  if (data && Array.isArray(data.records)) {
+    global.memRecords = data.records;
+  }
+  try {
+    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf8');
+  } catch (err) {
+    console.error('DB Write Notice:', err.message);
+  }
 }
 
 function findRecord(id) {
@@ -284,14 +307,18 @@ app.delete('/api/admin/clear-all', (req, res) => {
 });
 
 // ===================================================
-// تشغيل الخادم
+// تصدير التطبيق لـ Vercel وتشغيل السيرفر المحلي
 // ===================================================
-app.listen(PORT, () => {
-  console.log(`
+module.exports = app;
+
+if (require.main === module || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`
   ╔═════════════════════════════════════════════════════╗
   ║   🛡️  مشروع التوعية بالأمن السيبراني               ║
   ║   الموقع الرئيسي:   http://localhost:${PORT}             ║
   ║   لوحة تحكم الأدمن: http://localhost:${PORT}/admin.html   ║
   ╚═════════════════════════════════════════════════════╝
-  `);
-});
+    `);
+  });
+}
