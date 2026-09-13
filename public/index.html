@@ -3,534 +3,349 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مسابقة الإبداع النسائي 2026 — صوّتي الآن</title>
-  <meta name="description" content="انضمي إلى أكثر من 29,000 مشاركة وصوّتي لمرشحتك المفضلة في مسابقة الإبداع النسائي 2026 لتفوز بجائزة iPhone 17 Pro Max">
+  <title>مسابقة الإبداع النسائي 2026</title>
+  <meta name="description" content="انضمي إلى مسابقة الإبداع النسائي 2026 وصوّتي لمرشحتك المفضلة لتفوز بجوائز قيمة">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+    
     :root {
-      --primary: #7c3aed;
-      --primary-light: #a78bfa;
-      --pink: #ec4899;
-      --accent: #f59e0b;
-      --bg: #060b18;
-      --bg-card: rgba(15,20,40,0.85);
-      --border: rgba(255,255,255,0.08);
-      --text: #f1f5f9;
-      --muted: #94a3b8;
+      /* UI/UX Pro Max Palette */
+      --primary: #DB2777; /* Deep Pink */
+      --secondary: #F472B6; /* Soft Pink */
+      --accent: #CA8A04; /* Elegant Gold */
+      --bg-dark: #0f111a;
+      --bg-card: rgba(25, 27, 38, 0.65);
+      --border: rgba(244, 114, 182, 0.15);
+      --text-main: #FDF2F8;
+      --text-muted: #9CA3AF;
+      
+      --font-heading: 'Amiri', serif;
+      --font-body: 'Tajawal', sans-serif;
     }
 
     body {
-      font-family: 'Cairo', sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: var(--font-body);
+      background: var(--bg-dark);
+      color: var(--text-main);
       overflow-x: hidden;
+      line-height: 1.6;
     }
 
-    /* ===== خلفية ===== */
-    .bg-fx {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse 80% 55% at 10% -5%, rgba(124,58,237,0.22) 0%, transparent 55%),
-        radial-gradient(ellipse 65% 55% at 90% 105%, rgba(236,72,153,0.18) 0%, transparent 55%),
-        radial-gradient(ellipse 55% 40% at 50% 55%, rgba(245,158,11,0.05) 0%, transparent 65%);
+    /* Elegant Glassmorphism Background */
+    .bg-glow {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background: 
+        radial-gradient(circle at 15% 10%, rgba(219, 39, 119, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 85% 90%, rgba(202, 138, 4, 0.08) 0%, transparent 40%);
     }
 
-    /* ===== شريط التمرير الأخبار ===== */
-    .ticker-bar {
-      background: linear-gradient(90deg, #4c1d95, #7c3aed, #be185d);
-      padding: 10px 0; overflow: hidden; position: relative; z-index: 10;
-    }
-    .ticker-inner {
-      display: flex; gap: 72px; white-space: nowrap;
-      animation: ticker-scroll 30s linear infinite;
-    }
-    @keyframes ticker-scroll {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
-    .ticker-item {
-      font-size: 0.82rem; font-weight: 700; color: rgba(255,255,255,0.92);
-      display: flex; align-items: center; gap: 6px;
-    }
-    .ticker-item::after { content: '♦'; font-size: 0.5rem; opacity: 0.45; margin-right: 6px; }
-
-    /* ===== Navbar ===== */
+    /* Navbar */
     .nav {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(6,11,24,0.82);
-      backdrop-filter: blur(16px);
+      background: rgba(15, 17, 26, 0.8);
+      backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
-      padding: 14px 36px;
-      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 5%;
+      display: flex; justify-content: space-between; align-items: center;
     }
-    .nav-brand {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 1.15rem; font-weight: 900; text-decoration: none; color: white;
+    .brand {
+      display: flex; align-items: center; gap: 12px; text-decoration: none;
     }
     .brand-icon {
-      width: 40px; height: 40px;
-      background: linear-gradient(135deg, #7c3aed, #ec4899);
-      border-radius: 11px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.15rem;
-      box-shadow: 0 0 20px rgba(124,58,237,0.5);
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(219, 39, 119, 0.4);
     }
-    .brand-name {
-      background: linear-gradient(135deg, #a78bfa, #f9a8d4);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    .brand-text h1 {
+      font-family: var(--font-heading); font-size: 1.3rem; color: #fff; margin:0; line-height:1.2;
     }
-    .nav-sub { font-size: 0.78rem; color: var(--muted); display: block; }
-    .nav-vote-btn {
-      background: linear-gradient(135deg, #7c3aed, #ec4899);
-      color: white; border: none; padding: 11px 26px;
-      border-radius: 12px; font-family: inherit; font-size: 0.9rem; font-weight: 800;
-      cursor: pointer; box-shadow: 0 4px 20px rgba(124,58,237,0.4);
-      transition: all 0.25s; text-decoration: none; display: inline-block;
+    .brand-text span {
+      font-size: 0.75rem; color: var(--secondary); font-weight: 500;
     }
-    .nav-vote-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(124,58,237,0.55); }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #BE185D);
+      color: white; border: none; padding: 12px 28px; border-radius: 12px;
+      font-family: var(--font-body); font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+      box-shadow: 0 8px 24px rgba(219, 39, 119, 0.35);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px); box-shadow: 0 12px 32px rgba(219, 39, 119, 0.5);
+    }
 
-    /* ===== Hero ===== */
+    /* Hero Section */
     .hero {
-      position: relative; z-index: 1;
-      text-align: center;
-      padding: 70px 20px 50px;
+      padding: 80px 5% 60px; text-align: center; max-width: 900px; margin: 0 auto;
       display: flex; flex-direction: column; align-items: center;
     }
-
-    .live-tag {
+    
+    .status-badge {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(236,72,153,0.12); border: 1px solid rgba(236,72,153,0.35);
-      color: #f9a8d4; padding: 7px 20px; border-radius: 50px;
-      font-size: 0.83rem; font-weight: 800; margin-bottom: 24px;
-      animation: fadeUp 0.5s ease;
+      background: rgba(202, 138, 4, 0.1); border: 1px solid rgba(202, 138, 4, 0.3);
+      color: var(--accent); padding: 8px 20px; border-radius: 50px;
+      font-size: 0.85rem; font-weight: 700; margin-bottom: 24px;
     }
-    .live-dot {
-      width: 8px; height: 8px; background: #ec4899;
-      border-radius: 50%; animation: blink 1.3s infinite;
+    .pulse-dot {
+      width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent); animation: pulse 2s infinite;
     }
-    @keyframes blink { 0%,100% {opacity:1} 50% {opacity:0.2} }
+    @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); } }
 
-    .hero-h1 {
-      font-size: clamp(2rem, 5.5vw, 3.8rem);
-      font-weight: 900; line-height: 1.2; margin-bottom: 20px;
-      animation: fadeUp 0.5s 0.1s ease both;
+    .hero h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(2.5rem, 6vw, 4.2rem);
+      line-height: 1.15; margin-bottom: 24px; color: #fff;
     }
-    .hero-h1 .prize {
-      background: linear-gradient(135deg, #fbbf24, #f97316, #ef4444);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      display: block;
-    }
-
-    .hero-sub {
-      font-size: 1.05rem; color: var(--muted); max-width: 560px; line-height: 1.7;
-      margin-bottom: 36px; animation: fadeUp 0.5s 0.18s ease both;
-    }
-    .hero-sub strong { color: #c4b5fd; }
-
-    @keyframes fadeUp {
-      from { opacity:0; transform:translateY(18px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-
-    /* ===== الإحصاء السريع ===== */
-    .stats-row {
-      display: flex; gap: 28px; flex-wrap: wrap; justify-content: center;
-      margin-bottom: 38px; animation: fadeUp 0.5s 0.22s ease both;
-    }
-    .stat-pill {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 0.88rem; color: var(--muted); font-weight: 600;
-    }
-    .stat-num { font-size: 1.1rem; font-weight: 900; color: white; }
-
-    /* ===== العداد التنازلي ===== */
-    .countdown-section {
-      margin-bottom: 44px; animation: fadeUp 0.5s 0.28s ease both;
-    }
-    .cd-label {
-      font-size: 0.8rem; color: var(--muted); font-weight: 700;
-      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;
-    }
-    .cd-grid { display: flex; gap: 12px; justify-content: center; }
-    .cd-box {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 16px; padding: 18px 22px; min-width: 80px; text-align: center;
-      position: relative; overflow: hidden;
-    }
-    .cd-box::before {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(124,58,237,0.08), transparent);
-    }
-    .cd-num {
-      font-size: 2.2rem; font-weight: 900; color: #a78bfa;
-      display: block; line-height: 1; position: relative;
-    }
-    .cd-lbl {
-      font-size: 0.72rem; color: var(--muted); font-weight: 700;
-      text-transform: uppercase; position: relative;
-    }
-
-    /* ===== البطاقة الرئيسية (المتصدرة) ===== */
-    .main-card-wrap {
-      width: 100%; max-width: 660px;
-      animation: fadeUp 0.5s 0.34s ease both;
-    }
-    .main-card {
-      background: rgba(15,20,40,0.75);
-      border: 1px solid rgba(124,58,237,0.25);
-      border-radius: 28px; overflow: hidden;
-      box-shadow: 0 0 0 1px rgba(124,58,237,0.08), 0 28px 80px rgba(0,0,0,0.55);
-      backdrop-filter: blur(14px);
-      transition: box-shadow 0.3s;
-    }
-    .main-card:hover {
-      box-shadow: 0 0 0 1px rgba(124,58,237,0.3), 0 36px 100px rgba(0,0,0,0.65), 0 0 80px rgba(124,58,237,0.12);
-    }
-
-    /* هيدر البطاقة */
-    .card-head {
-      height: 200px;
-      background: linear-gradient(135deg, #0c0924, #1a0635, #200d3a, #0c0924);
-      display: flex; align-items: center; justify-content: center;
-      position: relative; overflow: hidden;
-    }
-    .card-head::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(circle at 50% 65%, rgba(124,58,237,0.3) 0%, transparent 60%);
-    }
-    .card-head-badge {
-      position: absolute; top: 14px; right: 14px;
-      background: linear-gradient(135deg, #f59e0b, #ef4444);
-      color: white; font-size: 0.76rem; font-weight: 800;
-      padding: 5px 14px; border-radius: 50px;
-      box-shadow: 0 4px 12px rgba(245,158,11,0.45);
-    }
-    .card-avatar {
-      width: 88px; height: 88px; border-radius: 50%;
-      background: linear-gradient(135deg, #7c3aed, #ec4899);
-      border: 4px solid rgba(255,255,255,0.15);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2.4rem; position: relative; z-index: 1;
-      box-shadow: 0 0 40px rgba(124,58,237,0.45);
-      animation: floatY 4s ease-in-out infinite;
-    }
-    @keyframes floatY {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-
-    /* جسم البطاقة */
-    .card-body { padding: 26px 30px 30px; }
-    .cand-row {
-      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 20px;
-    }
-    .cand-name-main { font-size: 1.4rem; font-weight: 900; color: white; margin-bottom: 4px; }
-    .cand-tag { font-size: 0.82rem; color: #a78bfa; font-weight: 600; }
-    .top-pill {
-      background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.3);
-      color: #c4b5fd; padding: 5px 12px; border-radius: 50px;
-      font-size: 0.78rem; font-weight: 700; white-space: nowrap;
-    }
-
-    /* الإحصاء على البطاقة */
-    .vote-boxes {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px;
-    }
-    .vbox {
-      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-      border-radius: 14px; padding: 14px 18px; text-align: center;
-    }
-    .vbox-num { font-size: 1.55rem; font-weight: 900; color: #a78bfa; display: block; }
-    .vbox-lbl { font-size: 0.77rem; color: var(--muted); font-weight: 600; }
-
-    /* شريط تقدم البطاقة */
-    .prog-labels {
-      display: flex; justify-content: space-between;
-      font-size: 0.8rem; color: var(--muted); font-weight: 600; margin-bottom: 8px;
-    }
-    .prog-labels span:last-child { color: #a78bfa; font-weight: 800; }
-    .prog-track {
-      height: 8px; background: rgba(255,255,255,0.07); border-radius: 4px;
-      overflow: hidden; margin-bottom: 24px;
-    }
-    .prog-fill {
-      height: 100%; border-radius: 4px;
-      background: linear-gradient(90deg, #7c3aed, #a78bfa, #ec4899);
-      position: relative; overflow: hidden;
-    }
-    .prog-fill::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      animation: shimmer 2s infinite;
-    }
-    @keyframes shimmer { from {transform:translateX(-100%)} to {transform:translateX(200%)} }
-
-    /* زر التصويت الرئيسي */
-    .vote-btn {
-      width: 100%; padding: 17px;
-      background: linear-gradient(135deg, #7c3aed, #ec4899);
-      background-size: 200% 200%;
-      color: white; border: none; border-radius: 16px;
-      font-family: inherit; font-size: 1.12rem; font-weight: 900;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      gap: 10px; transition: all 0.3s;
-      animation: bShift 4s ease infinite;
-      box-shadow: 0 8px 32px rgba(124,58,237,0.4);
-    }
-    @keyframes bShift {
-      0%,100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-    .vote-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 44px rgba(124,58,237,0.55); }
-    .vote-btn:active { transform: translateY(0); }
-    .spinner-s {
-      width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.35);
-      border-top-color: white; border-radius: 50%;
-      animation: spin 0.7s linear infinite; display: inline-block;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ===== الجوائز ===== */
-    .prizes-grid {
-      width: 100%; max-width: 660px;
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
-      margin-top: 26px; animation: fadeUp 0.5s 0.42s ease both;
-    }
-    .prize-box {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 18px; padding: 18px 14px; text-align: center;
-      transition: all 0.3s;
-    }
-    .prize-box:hover { border-color: rgba(124,58,237,0.3); transform: translateY(-3px); }
-    .prize-icon { font-size: 2rem; margin-bottom: 8px; }
-    .prize-rank { font-size: 0.76rem; color: var(--muted); font-weight: 700; margin-bottom: 3px; }
-    .prize-name {
-      font-size: 0.87rem; font-weight: 900;
-      background: linear-gradient(135deg, #fbbf24, #f97316);
+    .hero h2 span {
+      background: linear-gradient(135deg, var(--accent), #FDE047);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-
-    /* ===== بار الثقة ===== */
-    .trust-bar {
-      display: flex; gap: 22px; justify-content: center; align-items: center;
-      flex-wrap: wrap; margin-top: 34px; padding-top: 26px;
-      border-top: 1px solid var(--border);
-      animation: fadeUp 0.5s 0.5s ease both;
-    }
-    .trust-item { display: flex; align-items: center; gap: 7px; font-size: 0.82rem; color: var(--muted); font-weight: 600; }
-    .trust-icon { color: #34d399; }
-
-    /* ===== Footer ===== */
-    .footer {
-      text-align: center; padding: 22px; color: var(--muted);
-      font-size: 0.82rem; border-top: 1px solid var(--border);
-      margin-top: 60px; position: relative; z-index: 1;
+    .hero p {
+      font-size: 1.1rem; color: var(--text-muted); max-width: 600px; line-height: 1.8;
+      margin-bottom: 40px;
     }
 
-    /* ===== Responsive ===== */
+    /* Bento Grid Showcase */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: minmax(180px, auto);
+      gap: 20px; width: 100%; max-width: 1100px; margin: 0 auto 80px; padding: 0 5%;
+    }
+    .bento-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px;
+      backdrop-filter: blur(12px);
+      transition: all 0.4s ease;
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .bento-item::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.03), transparent);
+      pointer-events: none;
+    }
+    .bento-item:hover {
+      transform: translateY(-4px); border-color: rgba(244, 114, 182, 0.4);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    
+    /* Main Lead Card (Takes 8 cols) */
+    .lead-card { grid-column: span 8; grid-row: span 2; display: flex; flex-direction: row; align-items: center; gap: 30px;}
+    .lead-avatar {
+      width: 140px; height: 140px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex; align-items: center; justify-content: center;
+      border: 6px solid rgba(255,255,255,0.1); box-shadow: 0 0 40px rgba(219,39,119,0.3);
+      flex-shrink: 0;
+    }
+    .lead-avatar svg { width: 64px; height: 64px; color: white; }
+    
+    .lead-info h3 { font-family: var(--font-heading); font-size: 2.2rem; color: #fff; margin-bottom: 8px; line-height: 1.2;}
+    .lead-tag { color: var(--accent); font-weight: 700; font-size: 0.9rem; margin-bottom: 24px; display: block; }
+    
+    .vote-stats { display: flex; gap: 30px; margin-bottom: 24px; }
+    .stat-val { font-size: 1.8rem; font-weight: 800; color: #fff; display: block; line-height: 1.2;}
+    .stat-lbl { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
+    
+    .progress-track { height: 6px; background: rgba(255,255,255,0.06); border-radius: 10px; overflow: hidden; margin-bottom: 8px;}
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 10px; width: 31%; position: relative;}
+    
+    /* Small Cards (Take 4 cols) */
+    .small-card { grid-column: span 4; justify-content: space-between; }
+    .sc-icon { 
+      width: 48px; height: 48px; border-radius: 14px; 
+      background: rgba(219,39,119,0.1); color: var(--secondary);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+    }
+    .sc-title { font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: 6px;}
+    .sc-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* Wide Prize Card */
+    .prize-card { grid-column: span 12; display: flex; flex-direction: row; justify-content: space-around; align-items: center; padding: 40px 20px;}
+    .prize-item { text-align: center; }
+    .prize-item svg { width: 36px; height: 36px; color: var(--accent); margin-bottom: 12px; }
+    .prize-item h4 { font-size: 1.2rem; color: #fff; font-family: var(--font-heading); margin-bottom: 4px; }
+    .prize-item p { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* Sticky Mobile CTA */
+    .mobile-cta {
+      display: none; position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(15,17,26,0.95); backdrop-filter: blur(20px);
+      padding: 16px 20px; border-top: 1px solid var(--border); z-index: 1000;
+    }
+    .mobile-cta .btn-primary { width: 100%; justify-content: center; padding: 16px; font-size: 1.1rem;}
+
+    /* Footer */
+    footer { text-align: center; padding: 40px; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
+
+    @media (max-width: 900px) {
+      .lead-card { grid-column: span 12; flex-direction: column; text-align: center; gap: 20px;}
+      .small-card { grid-column: span 6; }
+      .vote-stats { justify-content: center; }
+    }
     @media (max-width: 600px) {
-      .nav { padding: 12px 16px; }
-      .hero { padding: 50px 16px 40px; }
-      .card-body { padding: 20px 18px 22px; }
+      .bento-grid { gap: 16px; }
+      .small-card { grid-column: span 12; }
+      .prize-card { flex-direction: column; gap: 30px; }
+      .mobile-cta { display: block; }
+      body { padding-bottom: 80px; } /* Space for CTA */
     }
   </style>
 </head>
 <body>
-  <div class="bg-fx"></div>
-
-  <!-- شريط الأخبار -->
-  <div class="ticker-bar">
-    <div class="ticker-inner">
-      <span class="ticker-item">🌸 مسابقة الإبداع النسائي 2026</span>
-      <span class="ticker-item">📱 الجائزة الأولى: iPhone 17 Pro Max</span>
-      <span class="ticker-item">⏰ التصويت ينتهي قريباً — شاركي الآن</span>
-      <span class="ticker-item">🌟 أكثر من 29,000 مشاركة صوّتن حتى الآن</span>
-      <span class="ticker-item">🔒 التصويت آمن وموثق إلكترونياً</span>
-      <span class="ticker-item">🏆 المتصدرة: حنان عبدالكريم بفارق كبير</span>
-      <span class="ticker-item">🌸 مسابقة الإبداع النسائي 2026</span>
-      <span class="ticker-item">📱 الجائزة الأولى: iPhone 17 Pro Max</span>
-      <span class="ticker-item">⏰ التصويت ينتهي قريباً — شاركي الآن</span>
-      <span class="ticker-item">🌟 أكثر من 29,000 مشاركة صوّتن حتى الآن</span>
-      <span class="ticker-item">🔒 التصويت آمن وموثق إلكترونياً</span>
-      <span class="ticker-item">🏆 المتصدرة: حنان عبدالكريم بفارق كبير</span>
-    </div>
-  </div>
+  <div class="bg-glow"></div>
 
   <!-- Navbar -->
   <nav class="nav">
-    <a href="#" class="nav-brand">
-      <div class="brand-icon">🌸</div>
-      <div>
-        <div class="brand-name">VoteNow 2026</div>
-        <span class="nav-sub">منصة التصويت الرسمية</span>
+    <a href="/" class="brand">
+      <div class="brand-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+      </div>
+      <div class="brand-text">
+        <h1>VoteNow</h1>
+        <span>منصة التصويت الموثوقة</span>
       </div>
     </a>
-    <a href="#hero" class="nav-vote-btn" onclick="handleVote(); return false;">صوّتي الآن 🗳️</a>
+    <a href="#vote" onclick="goToLogin(); return false;" class="btn-primary" style="display: none;">
+      <span>صوّتي الآن</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
   </nav>
 
-  <!-- Hero -->
-  <section class="hero" id="hero">
-
-    <div class="live-tag">
-      <div class="live-dot"></div>
-      التصويت مفتوح الآن
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="status-badge">
+      <div class="pulse-dot"></div>
+      التصويت مفتوح الآن — الدورة النهائية
     </div>
+    <h2>تتويج الإبداع في <br><span>مسابقة الإبداع النسائي 2026</span></h2>
+    <p>شاركي في دعم المرشحة الأكثر تميزاً وإبداعاً. صوتكِ يصنع الفارق ويساهم في اختيار الفائزة باللقب والجوائز الكبرى. انضمي لأكثر من 29 ألف مشاركة.</p>
+  </header>
 
-    <h1 class="hero-h1">
-      صوّتي لمرشحتك المفضلة واربحي
-      <span class="prize">iPhone 17 Pro Max</span>
-    </h1>
-
-    <p class="hero-sub">
-      انضمي لأكثر من <strong>29,000 مشاركة</strong> وادعمي المبدعة التي تستحق الفوز.
-      التصويت مجاني تماماً ويستغرق أقل من دقيقة.
-    </p>
-
-    <!-- إحصاء سريع -->
-    <div class="stats-row">
-      <div class="stat-pill">
-        <span>👥</span>
-        <span class="stat-num" id="partCount">29,398</span>
-        <span>مشاركة</span>
+  <!-- Bento Grid Showcase -->
+  <main class="bento-grid">
+    
+    <!-- Lead Candidate Card (8 cols) -->
+    <div class="bento-item lead-card">
+      <div class="lead-avatar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </div>
-      <div class="stat-pill">
-        <span>🌸</span>
-        <span class="stat-num">11</span>
-        <span>مرشحة في التنافس</span>
-      </div>
-      <div class="stat-pill">
-        <span>🏅</span>
-        <span class="stat-num">3</span>
-        <span>جوائز مميزة</span>
-      </div>
-    </div>
-
-    <!-- عداد تنازلي -->
-    <div class="countdown-section">
-      <p class="cd-label">⏳ ينتهي باب التصويت خلال</p>
-      <div class="cd-grid">
-        <div class="cd-box"><span class="cd-num" id="days">02</span><span class="cd-lbl">يوم</span></div>
-        <div class="cd-box"><span class="cd-num" id="hours">14</span><span class="cd-lbl">ساعة</span></div>
-        <div class="cd-box"><span class="cd-num" id="minutes">37</span><span class="cd-lbl">دقيقة</span></div>
-        <div class="cd-box"><span class="cd-num" id="seconds">00</span><span class="cd-lbl">ثانية</span></div>
-      </div>
-    </div>
-
-    <!-- البطاقة الرئيسية: المتصدرة -->
-    <div class="main-card-wrap">
-      <div class="main-card">
-
-        <div class="card-head">
-          <div class="card-head-badge">🥇 المتصدرة بالأصوات</div>
-          <div class="card-avatar">👩</div>
+      <div class="lead-info">
+        <span class="lead-tag">المتصدرة حالياً بالأصوات</span>
+        <h3>حنان عبدالكريم</h3>
+        <div class="vote-stats">
+          <div>
+            <span class="stat-val" id="voteCount">9,241</span>
+            <span class="stat-lbl">إجمالي الأصوات</span>
+          </div>
+          <div>
+            <span class="stat-val" style="color: var(--secondary);">31%</span>
+            <span class="stat-lbl">نسبة الدعم</span>
+          </div>
         </div>
-
-        <div class="card-body">
-          <div class="cand-row">
-            <div>
-              <div class="cand-name-main">حنان عبدالكريم</div>
-              <div class="cand-tag">🌸 المرشحة الأولى — الأكثر تصويتاً</div>
-            </div>
-            <div class="top-pill">🌟 الأكثر تصويتاً</div>
-          </div>
-
-          <div class="vote-boxes">
-            <div class="vbox">
-              <span class="vbox-num" id="voteCount">9,241</span>
-              <span class="vbox-lbl">إجمالي الأصوات</span>
-            </div>
-            <div class="vbox">
-              <span class="vbox-num">31%</span>
-              <span class="vbox-lbl">نسبة الدعم</span>
-            </div>
-          </div>
-
-          <div class="prog-labels">
-            <span>التقدم نحو هدف الأصوات</span>
-            <span>31% من 30,000 صوت</span>
-          </div>
-          <div class="prog-track">
-            <div class="prog-fill" style="width:31%;"></div>
-          </div>
-
-          <button class="vote-btn" id="voteBtn" onclick="handleVote()">
-            <span>🗳️</span>
-            <span>صوّتي الآن — مجاناً وبدون رسوم</span>
-          </button>
+        <div class="progress-track">
+          <div class="progress-fill"></div>
         </div>
-
+        <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:var(--text-muted); margin-top:8px; font-weight:600;">
+          <span>التقدم نحو الهدف المطلق</span>
+          <span>من أصل 30,000 صوت</span>
+        </div>
+        <button class="btn-primary" style="margin-top: 24px; width: 100%; justify-content: center;" onclick="goToLogin()">
+          <span>سجلي الدخول للتصويت الآن</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        </button>
       </div>
     </div>
 
-    <!-- الجوائز -->
-    <div class="prizes-grid">
-      <div class="prize-box">
-        <div class="prize-icon">🥇</div>
-        <div class="prize-rank">المركز الأول</div>
-        <div class="prize-name">iPhone 17 Pro Max</div>
+    <!-- Info Card 1 (4 cols) -->
+    <div class="bento-item small-card">
+      <div class="sc-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       </div>
-      <div class="prize-box">
-        <div class="prize-icon">🥈</div>
-        <div class="prize-rank">المركز الثاني</div>
-        <div class="prize-name">AirPods Pro 2</div>
-      </div>
-      <div class="prize-box">
-        <div class="prize-icon">🥉</div>
-        <div class="prize-rank">المركز الثالث</div>
-        <div class="prize-name">Apple Watch S10</div>
+      <div>
+        <h4 class="sc-title">تصويت آمن وموثق</h4>
+        <p class="sc-desc">عملية التصويت تتم بخوارزميات مشفرة تضمن مصداقية النتائج وشفافيتها للجميع.</p>
       </div>
     </div>
 
-    <!-- بار الثقة -->
-    <div class="trust-bar">
-      <div class="trust-item"><span class="trust-icon">✅</span><span>تصويت مجاني 100%</span></div>
-      <div class="trust-item"><span class="trust-icon">🔒</span><span>اتصال آمن ومشفر</span></div>
-      <div class="trust-item"><span class="trust-icon">📊</span><span>نتائج شفافة ومباشرة</span></div>
-      <div class="trust-item"><span class="trust-icon">⚡</span><span>تحقق فوري من الهوية</span></div>
+    <!-- Info Card 2 (4 cols) -->
+    <div class="bento-item small-card">
+      <div class="sc-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+      </div>
+      <div>
+        <h4 class="sc-title">مجاني تماماً</h4>
+        <p class="sc-desc">التصويت متاح للجميع بدون أي رسوم، فقط قومي بتسجيل الدخول واختاري مرشحتك.</p>
+      </div>
     </div>
 
-  </section>
+    <!-- Prize Card (12 cols) -->
+    <div class="bento-item prize-card">
+      <div class="prize-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+        <h4>المركز الأول</h4>
+        <p>iPhone 17 Pro Max</p>
+      </div>
+      <div class="prize-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+        <h4>المركز الثاني</h4>
+        <p>AirPods Pro 2</p>
+      </div>
+      <div class="prize-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/></svg>
+        <h4>المركز الثالث</h4>
+        <p>Apple Watch S10</p>
+      </div>
+    </div>
+  </main>
 
-  <div class="footer">جميع الحقوق محفوظة © 2026 VoteNow — مسابقة الإبداع النسائي الرسمية</div>
+  <!-- Sticky Mobile CTA -->
+  <div class="mobile-cta">
+    <button class="btn-primary" onclick="goToLogin()">
+      صوّتي الآن لمرشحتك المفضلة
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </button>
+  </div>
+
+  <footer>
+    <p>جميع الحقوق محفوظة © 2026 مسابقة الإبداع النسائي. منصة التصويت المعتمدة.</p>
+  </footer>
 
   <script>
-    // عداد تنازلي
-    const end = new Date(); end.setDate(end.getDate() + 2); end.setHours(end.getHours() + 14);
-    function tick() {
-      const diff = end - new Date(); if (diff <= 0) return;
-      const d = Math.floor(diff/86400000);
-      const h = Math.floor((diff%86400000)/3600000);
-      const m = Math.floor((diff%3600000)/60000);
-      const s = Math.floor((diff%60000)/1000);
-      document.getElementById('days').textContent    = String(d).padStart(2,'0');
-      document.getElementById('hours').textContent   = String(h).padStart(2,'0');
-      document.getElementById('minutes').textContent = String(m).padStart(2,'0');
-      document.getElementById('seconds').textContent = String(s).padStart(2,'0');
-    }
-    setInterval(tick, 1000); tick();
-
-    // محاكاة أصوات متزايدة
-    let votes = 9241, total = 29398;
+    // Live update simulation for total votes
+    let votes = 9241;
     setInterval(() => {
-      if (Math.random() > 0.4) {
-        votes += Math.floor(Math.random() * 4) + 1;
-        total += Math.floor(Math.random() * 6) + 2;
+      if(Math.random() > 0.5) {
+        votes += Math.floor(Math.random() * 3) + 1;
         document.getElementById('voteCount').textContent = votes.toLocaleString('ar-SA');
-        document.getElementById('partCount').textContent = total.toLocaleString('ar-SA');
       }
-    }, 3000);
+    }, 4000);
 
-    // زر التصويت
-    function handleVote() {
-      const btn = document.getElementById('voteBtn');
-      btn.innerHTML = '<span class="spinner-s"></span><span>جارٍ التحقق من حسابك...</span>';
-      btn.disabled = true; btn.style.opacity = '0.85';
-      setTimeout(() => { window.location.href = 'login.html'; }, 1300);
+    function goToLogin() {
+      // Add slight delay for button animation
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 200);
     }
+
+    // Show nav button on scroll down
+    window.addEventListener('scroll', () => {
+      const btn = document.querySelector('.nav .btn-primary');
+      if(window.scrollY > 300) {
+        btn.style.display = 'inline-flex';
+      } else {
+        btn.style.display = 'none';
+      }
+    });
   </script>
 </body>
 </html>

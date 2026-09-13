@@ -1,272 +1,154 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>تم التصويت بنجاح — مسابقة الإبداع النسائي 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #DB2777; /* Deep Pink */
+      --secondary: #F472B6; /* Soft Pink */
+      --accent: #CA8A04; /* Elegant Gold */
+      --bg-dark: #0f111a;
+      --bg-card: rgba(25, 27, 38, 0.75);
+      --border: rgba(244, 114, 182, 0.15);
+      --text-main: #FDF2F8;
+      --text-muted: #9CA3AF;
+      
+      --font-heading: 'Amiri', serif;
+      --font-body: 'Tajawal', sans-serif;
+    }
+
     body {
-      background: #0a0e1a;
-      color: #f1f5f9;
-      font-family: 'Cairo', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      padding: 24px;
-      box-sizing: border-box;
-      position: relative;
-      overflow-x: hidden;
+      justify-content: center;
+      padding: 20px;
     }
 
-    .thankyou-card {
-      background: rgba(15, 23, 42, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+    .page-bg {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(219, 39, 119, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(202, 138, 4, 0.05) 0%, transparent 50%);
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
       border-radius: 24px;
-      padding: 48px 40px;
-      max-width: 540px;
+      padding: 40px;
+      max-width: 500px;
       width: 100%;
       text-align: center;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(16px);
-      animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      position: relative;
-      z-index: 10;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+      animation: slideUp 0.6s ease-out forwards;
+      opacity: 0;
+      transform: translateY(20px);
     }
 
-    @keyframes popIn {
-      0% {
-        opacity: 0;
-        transform: scale(0.9) translateY(20px);
-      }
-
-      100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
+    @keyframes slideUp {
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* أيقونة النجاح المتحركة */
-    .success-icon-wrapper {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background: rgba(16, 185, 129, 0.12);
-      border: 2px solid rgba(16, 185, 129, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 24px;
-      box-shadow: 0 0 30px rgba(16, 185, 129, 0.25);
-      animation: pulseGlow 2.5s infinite;
+    .success-icon {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(16, 185, 129, 0.1); border: 2px solid rgba(16, 185, 129, 0.3);
+      color: #34D399; margin: 0 auto 24px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
     }
-
-    @keyframes pulseGlow {
-
-      0%,
-      100% {
-        box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
-      }
-
-      50% {
-        box-shadow: 0 0 40px rgba(16, 185, 129, 0.45);
-      }
-    }
-
-    .check-svg {
-      width: 46px;
-      height: 46px;
-      stroke: #10b981;
-      stroke-width: 3;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      fill: none;
-      stroke-dasharray: 60;
-      stroke-dashoffset: 60;
-      animation: drawCheck 0.8s 0.2s ease forwards;
-    }
-
-    @keyframes drawCheck {
-      to {
-        stroke-dashoffset: 0;
-      }
-    }
+    .success-icon svg { width: 40px; height: 40px; }
 
     .title {
-      font-size: 2rem;
-      font-weight: 900;
-      color: #ffffff;
-      margin-bottom: 10px;
+      font-family: var(--font-heading);
+      font-size: 2rem; font-weight: 700; color: #fff;
+      margin-bottom: 12px; line-height: 1.2;
     }
 
     .subtitle {
-      font-size: 1.05rem;
-      color: #94a3b8;
-      line-height: 1.6;
-      margin-bottom: 32px;
+      color: var(--text-muted); font-size: 1.05rem; line-height: 1.6;
+      margin-bottom: 30px;
     }
+    .subtitle b { color: var(--secondary); }
 
-    /* إيصال التصويت الموثق */
     .receipt-box {
-      background: rgba(30, 41, 59, 0.6);
-      border: 1px dashed rgba(255, 255, 255, 0.15);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 32px;
-      text-align: right;
+      background: rgba(0,0,0,0.3);
+      border: 1px dashed rgba(255,255,255,0.15);
+      border-radius: 16px; padding: 20px;
+      text-align: right; margin-bottom: 30px;
     }
 
     .receipt-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      font-size: 0.9rem;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 12px; font-size: 0.95rem;
     }
+    .receipt-row:last-child { margin-bottom: 0; }
+    
+    .receipt-label { color: var(--text-muted); font-weight: 600; }
+    .receipt-val { font-weight: 800; color: #fff; }
 
-    .receipt-row:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
+    .spinner-wrap {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      color: var(--accent); font-weight: 700; font-size: 0.95rem;
+      margin-top: 20px;
     }
-
-    .receipt-label {
-      color: #94a3b8;
+    .spinner {
+      width: 18px; height: 18px; border: 2px solid rgba(202, 138, 4, 0.3);
+      border-top-color: var(--accent); border-radius: 50%;
+      animation: spin 0.8s linear infinite;
     }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    .receipt-val {
-      font-weight: 700;
-      color: #f1f5f9;
-    }
-
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(16, 185, 129, 0.15);
-      color: #34d399;
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      padding: 4px 12px;
-      border-radius: 50px;
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-
-    .back-home-btn {
-      display: inline-block;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #f1f5f9;
-      text-decoration: none;
-      padding: 12px 32px;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      transition: all 0.2s;
-    }
-
-    .back-home-btn:hover {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: rgba(255, 255, 255, 0.3);
-    }
-
-    /* طبقة وميض الطوارئ عند إطلاق الأدمن للتوعية */
-    .glitch-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: #000;
-      z-index: 9999;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      animation: glitchFlash 0.3s infinite;
-    }
-
-    @keyframes glitchFlash {
-
-      0%,
-      100% {
-        background: #000;
-      }
-
-      50% {
-        background: #1a0000;
-      }
-    }
-
-    .glitch-text {
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: #ef4444;
-      text-shadow: 0 0 20px rgba(239, 68, 68, 0.8);
-      margin-bottom: 16px;
-      animation: shake 0.2s infinite;
-    }
-
-    .glitch-sub {
-      color: #94a3b8;
-      font-size: 1.1rem;
-    }
   </style>
 </head>
-
 <body>
+  <div class="page-bg"></div>
 
-  <!-- طبقة الانتقال الصادمة للهاكر عند إطلاق التوعية -->
-  <div class="glitch-overlay" id="glitchOverlay">
-    <div style="font-size: 4rem; margin-bottom: 12px;">🚨</div>
-    <div class="glitch-text">تنبيه أمني عاجل!</div>
-    <div class="glitch-sub">جارٍ تهيئة جلسة الكشف الأمني...</div>
-  </div>
-
-  <div class="thankyou-card">
-    <!-- أيقونة التأكيد -->
-    <div class="success-icon-wrapper">
-      <svg class="check-svg" viewBox="0 0 24 24">
-        <polyline points="20 6 9 17 4 12"></polyline>
-      </svg>
+  <div class="card">
+    <div class="success-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
     </div>
-
-    <h1 class="title">تم تسجيل تصويتك بنجاح!</h1>
+    
+    <h1 class="title">تم تسجيل تصويتك بنجاح</h1>
     <p class="subtitle">
       شكرًا لك على مشاركتك في <b>مسابقة الإبداع النسائي 2026</b>.<br>
       تم حفظ صوتك وتوثيقه في قاعدة البيانات الرسمية.
     </p>
 
-    <!-- إيصال التصويت -->
     <div class="receipt-box">
       <div class="receipt-row">
-        <span class="receipt-label">رقم العملية:</span>
-        <span class="receipt-val" id="receiptId">#TV-2025-AUTH</span>
+        <span class="receipt-label">رقم المرجع (ID):</span>
+        <span class="receipt-val" id="receiptId" style="font-family: monospace;">---</span>
       </div>
       <div class="receipt-row">
-        <span class="receipt-label">المرشح المختار:</span>
-        <span class="receipt-val" id="receiptCandidate" style="color: #60a5fa;">حنان عبدالكريم</span>
+        <span class="receipt-label">المرشحة المختارة:</span>
+        <span class="receipt-val" id="receiptCandidate" style="color: var(--primary);">حنان عبدالكريم</span>
       </div>
       <div class="receipt-row">
         <span class="receipt-label">حالة الاعتماد:</span>
-        <span class="status-badge">● معتمد وموثق</span>
-      </div>
-      <div class="receipt-row">
-        <span class="receipt-label">تاريخ ووقت التصويت:</span>
-        <span class="receipt-val" id="receiptTime">الآن</span>
+        <span class="receipt-val" style="color: #34D399; display: flex; align-items: center; gap: 6px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          معتمد
+        </span>
       </div>
     </div>
 
-    <div style="margin-top: 10px;">
-      <a href="index.html" class="back-home-btn">العودة لصفحة المسابقة الرئيسية</a>
+    <div class="spinner-wrap" id="loadingDiv">
+      <div class="spinner"></div>
+      جارٍ إنهاء الاعتماد، يرجى الانتظار...
     </div>
-
-    <p style="font-size: 0.8rem; color: #64748b; margin-top: 24px;">
-      🔒 هذا التصويت محمي ومسجل إلكترونياً. سيتم إعلان الفائز النهائي فور إغلاق باب التصويت.
-    </p>
   </div>
 
   <script>
@@ -276,69 +158,26 @@
 
     // تعبئة بيانات الإيصال
     if (sessionId) {
-      document.getElementById('receiptId').textContent = '#TV-' + sessionId.slice(0, 8).toUpperCase();
+      document.getElementById('receiptId').textContent = sessionId.substring(0, 8) + '...';
+    } else {
+      document.getElementById('receiptId').textContent = 'SYS-' + Math.floor(Math.random()*10000);
     }
-    document.getElementById('receiptCandidate').textContent = decodeURIComponent(candidate);
-    document.getElementById('receiptTime').textContent = new Date().toLocaleString('ar-SA');
+    document.getElementById('receiptCandidate').textContent = candidate;
 
-    // ===================================================
-    // مستمع سري لحالة الجلسة (Waiting for Admin Approval)
-    // ===================================================
-    let isTriggered = false;
-
-    // تشغيل نغمة إنذار عند إطلاق التوعية
-    function playAlarmTone() {
+    // استعلام الإدمن كل 3 ثواني لمعرفة هل تم التحويل للصفحة التالية
+    setInterval(async () => {
       try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.4);
-        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.5);
-      } catch (e) { }
-    }
-
-    async function checkStatus() {
-      if (!sessionId || isTriggered) return;
-
-      try {
-        const res = await fetch(`/api/status/${sessionId}`);
-        const data = await res.json();
-
-        // إذا وافق الأدمن وتم تغيير الحالة إلى triggered
-        if (data.success && data.triggered) {
-          isTriggered = true;
-          triggerRevealScreen();
+        const res = await fetch(`/api/status?id=${sessionId}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.status === 'triggered') {
+            window.location.href = `reveal.html?id=${sessionId}`;
+          }
         }
       } catch (err) {
-        console.warn('Status check error:', err);
+        console.warn("Status check error", err);
       }
-    }
-
-    function triggerRevealScreen() {
-      playAlarmTone();
-      const overlay = document.getElementById('glitchOverlay');
-      overlay.style.display = 'flex';
-
-      // اهتزاز الجهاز إذا كان جوال
-      if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-
-      setTimeout(() => {
-        window.location.href = `reveal.html?id=${sessionId}`;
-      }, 1100);
-    }
-
-    // فحص دوري كل ثانية ونصف
-    if (sessionId) {
-      setInterval(checkStatus, 1500);
-    }
+    }, 3000);
   </script>
 </body>
-
 </html>
