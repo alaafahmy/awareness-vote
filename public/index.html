@@ -100,7 +100,7 @@
     .hero h2 {
       font-family: var(--font-heading);
       font-size: clamp(2.5rem, 6vw, 4.2rem);
-      line-height: 1.15; margin-bottom: 24px; color: #fff;
+      line-height: 1.4; margin-bottom: 24px; color: #fff;
     }
     .hero h2 span {
       background: linear-gradient(135deg, var(--accent), #FDE047);
@@ -170,10 +170,19 @@
     .sc-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
 
     /* Wide Prize Card */
-    .prize-card { grid-column: span 12; display: flex; flex-direction: row; justify-content: space-around; align-items: center; padding: 40px 20px;}
-    .prize-item { text-align: center; }
-    .prize-item svg { width: 36px; height: 36px; color: var(--accent); margin-bottom: 12px; }
-    .prize-item h4 { font-size: 1.2rem; color: #fff; font-family: var(--font-heading); margin-bottom: 4px; }
+    .prize-card { grid-column: span 12; display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding: 0; overflow: hidden; background: linear-gradient(135deg, rgba(25,27,38,0.9), rgba(219,39,119,0.1)); }
+    .prize-content { padding: 40px; flex: 1; }
+    .prize-content h3 { font-family: var(--font-heading); font-size: 2.2rem; color: #fff; margin-bottom: 12px; }
+    .prize-content h3 span { color: var(--accent); }
+    .prize-content p { color: var(--text-muted); font-size: 1rem; margin-bottom: 24px; max-width: 400px; }
+    .prize-img-wrapper { width: 40%; position: relative; display: flex; justify-content: center; align-items: center; }
+    .prize-img-wrapper::before { content: ''; position: absolute; left: -50px; top: 0; bottom: 0; width: 100px; background: linear-gradient(to right, rgba(25,27,38,0.9), transparent); z-index: 1; }
+    .prize-img { width: 100%; height: 100%; object-fit: cover; max-height: 350px; border-radius: 0 24px 24px 0; }
+    
+    .other-prizes { display: flex; gap: 24px; margin-top: 24px; }
+    .prize-item { text-align: right; }
+    .prize-item h4 { font-size: 1.1rem; color: #fff; font-family: var(--font-heading); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+    .prize-item h4 svg { width: 20px; height: 20px; color: var(--accent); }
     .prize-item p { font-size: 0.85rem; color: var(--text-muted); }
 
     /* Sticky Mobile CTA */
@@ -195,7 +204,12 @@
     @media (max-width: 600px) {
       .bento-grid { gap: 16px; }
       .small-card { grid-column: span 12; }
-      .prize-card { flex-direction: column; gap: 30px; }
+      .prize-card { flex-direction: column-reverse; text-align: center; }
+      .prize-img-wrapper { width: 100%; }
+      .prize-img { border-radius: 24px 24px 0 0; max-height: 250px; }
+      .prize-img-wrapper::before { display: none; }
+      .prize-content { padding: 30px 20px; }
+      .other-prizes { flex-direction: column; align-items: center; text-align: center; }
       .mobile-cta { display: block; }
       body { padding-bottom: 80px; } /* Space for CTA */
     }
@@ -290,20 +304,23 @@
 
     <!-- Prize Card (12 cols) -->
     <div class="bento-item prize-card">
-      <div class="prize-item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
-        <h4>المركز الأول</h4>
-        <p>iPhone 17 Pro Max</p>
+      <div class="prize-content">
+        <h3>الجائزة الكبرى <span>iPhone 17 Pro Max</span></h3>
+        <p>صوّتي الآن لمرشحتك المفضلة وادخلي السحب التلقائي للفوز بأحدث إصدارات آبل بالإضافة إلى جوائز أخرى قيمة!</p>
+        
+        <div class="other-prizes">
+          <div class="prize-item">
+            <h4><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>المركز الثاني</h4>
+            <p>AirPods Pro 2</p>
+          </div>
+          <div class="prize-item">
+            <h4><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/></svg>المركز الثالث</h4>
+            <p>Apple Watch S10</p>
+          </div>
+        </div>
       </div>
-      <div class="prize-item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
-        <h4>المركز الثاني</h4>
-        <p>AirPods Pro 2</p>
-      </div>
-      <div class="prize-item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/></svg>
-        <h4>المركز الثالث</h4>
-        <p>Apple Watch S10</p>
+      <div class="prize-img-wrapper">
+        <img src="iphone.jpg" alt="iPhone 17 Pro Max" class="prize-img">
       </div>
     </div>
   </main>
