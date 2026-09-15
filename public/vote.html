@@ -251,8 +251,8 @@
     <!-- Candidates Grid -->
     <div class="grid" id="grid">
 
-      <!-- 1: حنان عبدالكريم -->
-      <div class="cand-card selected" onclick="pick(this,'حنان عبدالكريم')" style="margin-top: 14px;">
+      <!-- 1: بيان علي -->
+      <div class="cand-card selected" onclick="pick(this,'بيان علي')" style="margin-top: 14px;">
         <div class="lead-chip">
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline; vertical-align:middle; margin-left:2px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           المتصدرة
@@ -265,7 +265,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
         </div>
-        <div class="cand-name">حنان عبدالكريم</div>
+        <div class="cand-name">بيان علي</div>
         <div class="vote-bar-wrap">
           <div class="vote-bar-labels">
             <span>نسبة الأصوات</span>
@@ -515,7 +515,7 @@
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const sessionId = urlParams.get('id') || '';
-    let chosen = 'حنان عبدالكريم'; // Default selected
+    let chosen = 'بيان علي'; // Default selected
 
     function pick(el, name) {
       document.querySelectorAll('.cand-card').forEach(c => c.classList.remove('selected'));

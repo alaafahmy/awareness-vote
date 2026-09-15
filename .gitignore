@@ -6,3 +6,6 @@ database.json
 design_output.md
 design_output2.md
 antigravity_global_skills/
+
+.vercel
+.env*
