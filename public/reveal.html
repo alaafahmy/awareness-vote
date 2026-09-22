@@ -4,47 +4,57 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
-  <title>نتيجة التجربة التوعوية | حصانة</title>
+  <title>نتيجة التجربة | حصانة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <main class="center-page">
-    <article class="reveal-card">
-      <span class="reveal-label">نتيجة التجربة</span>
-      <h1>هل توقفت قبل أن تثق بالجائزة؟</h1>
-      <p>الجوائز العاجلة وصفحات التسجيل المقنعة من أشهر أساليب التصيد. التصميم الجميل لا يثبت أن الجهة حقيقية.</p>
+<body class="reveal-experience">
+  <header class="reveal-header">
+    <div class="reveal-brand"><span>◆</span><b>حصانة</b></div>
+    <span class="reveal-header-label">مختبر الوعي الرقمي</span>
+  </header>
 
-      <div class="safe-result">
-        <strong>بياناتك الحساسة آمنة في هذه التجربة.</strong><br>
-        لم نطلب أو نخزّن كلمة مرور، ولم نحفظ بريدك كاملًا أو عنوان IP الخاص بك.
+  <main class="reveal-main">
+    <section class="reveal-hero" aria-labelledby="revealTitle">
+      <div class="reveal-index" aria-hidden="true">01</div>
+      <div>
+        <span class="reveal-kicker">انتهت المحاكاة</span>
+        <h1 id="revealTitle">لم تكن جائزة.<br><em>كانت لحظة اختبار.</em></h1>
+        <p>صفحات الجوائز المستعجلة والتصميمات المقنعة من أكثر الأساليب المستخدمة لدفع الأشخاص إلى إدخال بياناتهم قبل التحقق.</p>
       </div>
+    </section>
 
-      <div class="lesson-grid">
-        <section class="lesson-card">
-          <h3>افحص العنوان</h3>
-          <p>اقرأ اسم النطاق حرفًا حرفًا، ولا تعتمد على الشعار أو ألوان الصفحة.</p>
-        </section>
-        <section class="lesson-card">
-          <h3>لا تشارك الرموز</h3>
-          <p>كلمات المرور ورموز التحقق لا تُطلب لاستلام جائزة أو تأكيد تصويت.</p>
-        </section>
-        <section class="lesson-card">
-          <h3>ادخل من المصدر</h3>
-          <p>افتح التطبيق الرسمي أو اكتب عنوان الموقع بنفسك بدل الضغط على رابط الرسالة.</p>
-        </section>
-        <section class="lesson-card">
-          <h3>بلّغ بسرعة</h3>
-          <p>عند الشك، أبلغ فريق الأمن أو الجهة المنظمة ولا تعِد إرسال الرابط للآخرين.</p>
-        </section>
+    <section class="reveal-safety">
+      <span class="reveal-safety-icon" aria-hidden="true">✓</span>
+      <div>
+        <strong>بياناتك الحساسة لم تُجمع.</strong>
+        <p>استخدمت هذه المحاكاة اسمًا مستعارًا ورمز دعوة مصرحًا فقط. لم نطلب بريدًا أو كلمة مرور، ولم نحفظ عنوان IP أو معلومات جهازك.</p>
       </div>
+    </section>
 
-      <div class="hero-actions">
-        <a class="button" href="awareness.html">أكمل درس الدقيقتين</a>
-        <button class="button secondary" id="deleteButton" type="button">حذف سجل مشاركتي</button>
+    <section class="reveal-lessons" aria-labelledby="lessonsTitle">
+      <div class="reveal-lessons-head">
+        <span>دليل الحماية السريع</span>
+        <h2 id="lessonsTitle">أربع خطوات تغيّر النتيجة</h2>
       </div>
-      <div class="form-message" id="deleteMessage" role="status" aria-live="polite"></div>
-    </article>
+      <div class="reveal-lesson-grid">
+        <article><b>01</b><h3>توقّف قبل الضغط</h3><p>الاستعجال والخوف من فوات الفرصة أداتان شائعتان في رسائل التصيد.</p></article>
+        <article><b>02</b><h3>افحص النطاق</h3><p>اقرأ عنوان الموقع حرفًا حرفًا، ولا تعتمد على الشعار أو جودة التصميم.</p></article>
+        <article><b>03</b><h3>لا تشارك الأسرار</h3><p>كلمة المرور ورمز التحقق لا يُطلبان لاستلام جائزة أو تأكيد مشاركة.</p></article>
+        <article><b>04</b><h3>ادخل من المصدر</h3><p>افتح التطبيق الرسمي أو اكتب عنوان الجهة بنفسك بدل روابط الرسائل.</p></article>
+      </div>
+    </section>
+
+    <section class="reveal-actions">
+      <a class="reveal-primary-action" href="awareness.html">أكمل درس الحماية <span>←</span></a>
+      <button class="reveal-delete" id="deleteButton" type="button">حذف سجل مشاركتي</button>
+      <div class="reveal-message" id="deleteMessage" role="status" aria-live="polite"></div>
+    </section>
   </main>
+
+  <footer class="reveal-footer">المعرفة الأمنية تبدأ بلحظة شك صحيحة.</footer>
 
   <script>
     const id = new URLSearchParams(window.location.search).get('id');
@@ -61,9 +71,8 @@
         const response = await fetch(`/api/entries/${encodeURIComponent(id)}`, { method: 'DELETE' });
         const data = await response.json();
         if (!response.ok || !data.success) throw new Error(data.message || 'تعذر حذف السجل.');
-        deleteMessage.style.color = 'var(--success)';
         deleteMessage.textContent = 'تم حذف سجل مشاركتك نهائيًا.';
-        deleteButton.textContent = 'تم الحذف';
+        deleteButton.textContent = 'تم حذف السجل';
       } catch (error) {
         deleteMessage.textContent = error.message;
         deleteButton.disabled = false;

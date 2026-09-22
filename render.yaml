@@ -13,5 +13,9 @@ services:
         sync: false
       - key: ADMIN_KEY
         sync: false
+      - key: CODE_HASH_SECRET
+        sync: false
+      - key: PARTICIPANT_CODES
+        sync: false
       - key: DB_NAME
         value: awareness_competition

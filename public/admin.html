@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <title>لوحة إدارة التوعية | حصانة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="admin-body">
@@ -30,7 +33,7 @@
     <section aria-labelledby="dashboardTitle">
       <div class="admin-toolbar">
         <div>
-          <span class="eyebrow">بيانات دائمة ومقنّعة</span>
+          <span class="eyebrow">مشاركات دائمة مجهولة الهوية</span>
           <h2 id="dashboardTitle">سجل المشاركات</h2>
         </div>
         <div class="card-actions">
@@ -57,12 +60,6 @@
     const entryList = document.getElementById('entryList');
     const triggerAllButton = document.getElementById('triggerAllButton');
     let pollTimer;
-
-    const answerLabels = {
-      'verify-link': 'تحقّق من الرابط والمرسل',
-      'share-code': 'مشاركة رمز التحقق',
-      'strong-password': 'إدخال كلمة المرور',
-    };
 
     function getKey() {
       return sessionStorage.getItem('awareness-admin-key') || '';
@@ -103,8 +100,8 @@
               <div class="badge ${waiting ? '' : 'done'}">${waiting ? 'بانتظار التوعية' : 'تمت التوعية'}</div>
               <h3>${escapeHtml(record.displayName)}</h3>
               <div class="meta">
-                <span>البريد المقنّع: <b dir="ltr">${escapeHtml(record.maskedEmail)}</b></span>
-                <span>الإجابة: ${escapeHtml(answerLabels[record.answer] || 'غير معروفة')}</span>
+                <span>مرجع البطاقة: <b dir="ltr">${escapeHtml(record.ticketRef || 'سجل سابق')}</b></span>
+                <span>النوع: ${record.entryType === 'authorized-code' ? 'رمز مشاركة مصرح' : 'سجل سابق'}</span>
                 <span>${escapeHtml(date)}</span>
               </div>
             </div>

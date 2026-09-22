@@ -4,12 +4,23 @@ const path = require('path');
 const { MongoClient } = require('mongodb');
 const { v4: uuidv4 } = require('uuid');
 
+try {
+  process.loadEnvFile(path.join(__dirname, '.env.runtime'));
+} catch (error) {
+  if (error.code !== 'ENOENT') throw error;
+}
+
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 const MONGODB_URI = process.env.MONGODB_URI;
 const DB_NAME = process.env.DB_NAME || 'awareness_competition';
 const COLLECTION_NAME = 'entries';
 const ADMIN_KEY = process.env.ADMIN_KEY || '';
+const CODE_HASH_SECRET = process.env.CODE_HASH_SECRET || '';
+const PARTICIPANT_CODES = String(process.env.PARTICIPANT_CODES || '')
+  .split(',')
+  .map((code) => normalizeParticipationCode(code))
+  .filter(Boolean);
 
 let dbPromise;
 const submissionWindows = new Map();
@@ -28,6 +39,10 @@ function getDb() {
       await client.connect();
       const db = client.db(DB_NAME);
       await db.collection(COLLECTION_NAME).createIndex({ createdAt: -1 });
+      await db.collection(COLLECTION_NAME).createIndex(
+        { codeHash: 1 },
+        { unique: true, sparse: true },
+      );
       return db;
     })().catch((error) => {
       dbPromise = undefined;
@@ -42,21 +57,16 @@ function entries(db) {
   return db.collection(COLLECTION_NAME);
 }
 
-function normalizeEmail(value) {
-  return String(value || '').trim().toLowerCase();
+function normalizeParticipationCode(value) {
+  return String(value || '').trim().toUpperCase().replace(/\s+/g, '');
 }
 
-function isValidEmail(value) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value) && value.length <= 254;
+function isAuthorizedCode(code) {
+  return PARTICIPANT_CODES.some((expected) => safeEqual(code, expected));
 }
 
-function maskEmail(email) {
-  const [local, domain] = email.split('@');
-  const visibleLocal = local.length <= 2 ? `${local[0] || ''}*` : `${local.slice(0, 2)}***`;
-  const domainParts = domain.split('.');
-  const host = domainParts.shift() || '';
-  const visibleHost = host.length <= 2 ? `${host[0] || ''}*` : `${host.slice(0, 2)}***`;
-  return `${visibleLocal}@${visibleHost}.${domainParts.join('.')}`;
+function hashParticipationCode(code) {
+  return crypto.createHmac('sha256', CODE_HASH_SECRET).update(code).digest('hex');
 }
 
 function safeEqual(actual, expected) {
@@ -104,7 +114,7 @@ function submissionRateLimit(req, res, next) {
 app.disable('x-powered-by');
 app.use((req, res, next) => {
   res.set({
-    'Content-Security-Policy': "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+    'Content-Security-Policy': "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; font-src 'self' https://fonts.gstatic.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
     'Referrer-Policy': 'no-referrer',
     'X-Content-Type-Options': 'nosniff',
     'X-Frame-Options': 'DENY',
@@ -132,31 +142,35 @@ app.get('/api/health', async (req, res) => {
 
 app.post('/api/entries', submissionRateLimit, async (req, res) => {
   const displayName = String(req.body.displayName || '').trim();
-  const email = normalizeEmail(req.body.email);
-  const answer = String(req.body.answer || '').trim();
-  const consent = req.body.consent === true;
+  const participationCode = normalizeParticipationCode(req.body.participationCode);
+  const termsAccepted = req.body.termsAccepted === true;
 
   if (displayName.length < 2 || displayName.length > 50) {
     return res.status(400).json({ success: false, message: 'أدخل اسمًا أو اسمًا مستعارًا من حرفين إلى 50 حرفًا.' });
   }
-  if (!isValidEmail(email)) {
-    return res.status(400).json({ success: false, message: 'أدخل بريدًا إلكترونيًا صالحًا.' });
+  if (!/^[A-Z0-9-]{6,24}$/.test(participationCode)) {
+    return res.status(400).json({ success: false, message: 'أدخل رمز مشاركة صالحًا.' });
   }
-  if (!['verify-link', 'share-code', 'strong-password'].includes(answer)) {
-    return res.status(400).json({ success: false, message: 'اختر إجابة السؤال التوعوي.' });
+  if (!PARTICIPANT_CODES.length || !CODE_HASH_SECRET) {
+    return res.status(503).json({ success: false, message: 'بوابة المشاركة غير مهيأة بعد.' });
   }
-  if (!consent) {
-    return res.status(400).json({ success: false, message: 'الموافقة مطلوبة للمشاركة في التجربة التوعوية.' });
+  if (!isAuthorizedCode(participationCode)) {
+    return res.status(403).json({ success: false, message: 'رمز المشاركة غير صحيح أو غير مفعّل.' });
+  }
+  if (!termsAccepted) {
+    return res.status(400).json({ success: false, message: 'يجب الموافقة على شروط المسابقة.' });
   }
 
   const id = uuidv4();
+  const codeHash = hashParticipationCode(participationCode);
   const record = {
     _id: id,
     id,
     displayName,
-    maskedEmail: maskEmail(email),
-    answer,
-    consentVersion: '2026-09',
+    ticketRef: `T-${codeHash.slice(0, 8).toUpperCase()}`,
+    codeHash,
+    entryType: 'authorized-code',
+    termsVersion: '2026-09',
     status: 'waiting',
     createdAt: new Date(),
   };
@@ -166,6 +180,9 @@ app.post('/api/entries', submissionRateLimit, async (req, res) => {
     await entries(db).insertOne(record);
     res.status(201).json({ success: true, sessionId: id });
   } catch (error) {
+    if (error && error.code === 11000) {
+      return res.status(409).json({ success: false, message: 'تم استخدام رمز المشاركة مسبقًا.' });
+    }
     console.error('[database] entry creation failed:', error.message);
     res.status(503).json({ success: false, message: 'تعذر حفظ المشاركة بشكل دائم. حاول بعد تهيئة قاعدة البيانات.' });
   }
@@ -203,7 +220,18 @@ app.get('/api/admin/records', async (req, res) => {
   try {
     const db = await getDb();
     const records = await entries(db)
-      .find({}, { projection: { _id: 0 } })
+      .find({}, {
+        projection: {
+          _id: 0,
+          id: 1,
+          displayName: 1,
+          ticketRef: 1,
+          entryType: 1,
+          status: 1,
+          createdAt: 1,
+          triggeredAt: 1,
+        },
+      })
       .sort({ createdAt: -1 })
       .limit(500)
       .toArray();
