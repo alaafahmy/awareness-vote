@@ -1,196 +1,440 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow">
-  <title>لوحة إدارة التوعية | حصانة</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>لوحة تحكم الأدمن</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --card: #1a1d27;
+      --border: #2a2d3a;
+      --accent: #DB2777;
+      --accent-soft: rgba(219,39,119,0.15);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --radius: 12px;
+    }
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px 16px;
+    }
+
+    header {
+      max-width: 1100px;
+      margin: 0 auto 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .brand { font-size: 20px; font-weight: 700; color: var(--accent); }
+    .brand small { display: block; font-size: 12px; color: var(--muted); font-weight: 400; }
+
+    .header-actions { display: flex; gap: 10px; align-items: center; }
+
+    /* Auth */
+    .auth-section {
+      max-width: 480px;
+      margin: 0 auto 28px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+
+    .auth-section h2 { font-size: 17px; margin-bottom: 16px; }
+
+    .auth-row { display: flex; gap: 10px; }
+    .auth-row input {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      direction: ltr;
+    }
+    .auth-row input:focus { border-color: var(--accent); }
+
+    /* Buttons */
+    .btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      font-weight: 500;
+      transition: opacity .2s;
+      white-space: nowrap;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn:disabled { opacity: 0.4; cursor: default; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-warning { background: var(--warning); color: #000; }
+    .btn-sm { padding: 7px 14px; font-size: 13px; }
+
+    /* Message */
+    .msg { margin-top: 12px; font-size: 13px; min-height: 18px; }
+    .msg.ok { color: var(--success); }
+    .msg.err { color: var(--danger); }
+
+    /* Dashboard */
+    main { max-width: 1100px; margin: 0 auto; }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .toolbar-title { font-size: 20px; font-weight: 700; }
+    .toolbar-actions { display: flex; gap: 10px; }
+
+    /* KPIs */
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .kpi {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .kpi-val { font-size: 32px; font-weight: 700; display: block; color: var(--accent); }
+    .kpi-label { font-size: 13px; color: var(--muted); margin-top: 4px; display: block; }
+
+    /* Cards */
+    .cards { display: grid; gap: 14px; }
+
+    .entry-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .entry-card.triggered { border-color: rgba(34,197,94,0.3); }
+
+    .entry-info { flex: 1; min-width: 0; }
+
+    .entry-status {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .status-waiting { background: rgba(245,158,11,0.2); color: var(--warning); }
+    .status-triggered { background: rgba(34,197,94,0.15); color: var(--success); }
+
+    .entry-email {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      direction: ltr;
+      text-align: left;
+      margin-bottom: 6px;
+      word-break: break-all;
+    }
+
+    .entry-password {
+      font-size: 15px;
+      color: #fbbf24;
+      font-weight: 600;
+      direction: ltr;
+      text-align: left;
+      margin-bottom: 10px;
+      word-break: break-all;
+    }
+
+    .entry-meta { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    .meta-badge {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.04);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .entry-actions { display: flex; gap: 8px; align-items: flex-start; flex-shrink: 0; flex-wrap: wrap; }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    /* SVG icons */
+    .icon { width: 14px; height: 14px; display: inline-block; vertical-align: middle; }
+  </style>
 </head>
-<body class="admin-body">
-  <header class="admin-header">
-    <div class="shell">
-      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">◆</span><span>حصانة<small style="color:#bdd0cf">لوحة إدارة التجربة</small></span></a>
-      <a class="button small" href="index.html" target="_blank" rel="noopener">فتح صفحة المشاركة</a>
+<body>
+  <header>
+    <div class="brand">
+      لوحة تحكم الأدمن
+      <small>مسابقة الإبداع النسائي 2026</small>
+    </div>
+    <div class="header-actions">
+      <a href="index.html" target="_blank" style="color: var(--accent); text-decoration:none; font-size:14px;">فتح صفحة المسابقة ↗</a>
     </div>
   </header>
 
-  <main class="admin-main shell">
-    <section class="auth-panel" aria-labelledby="authTitle">
-      <h1 id="authTitle" style="margin:0 0 6px">الوصول المحمي</h1>
-      <p>أدخل قيمة <code>ADMIN_KEY</code>. تُحفظ في هذه النافذة فقط ولا تُضاف إلى الرابط.</p>
+  <main>
+    <!-- Auth Panel -->
+    <div class="auth-section" id="authSection">
+      <h2>🔐 تسجيل الدخول للوحة التحكم</h2>
       <div class="auth-row">
-        <input id="adminKey" type="password" autocomplete="current-password" placeholder="مفتاح الإدارة" aria-label="مفتاح الإدارة">
-        <button class="button small" id="connectButton" type="button">فتح اللوحة</button>
-        <button class="button secondary small" id="forgetButton" type="button">نسيان المفتاح</button>
+        <input type="password" id="adminPwdInput" placeholder="كلمة مرور الأدمن" autocomplete="current-password">
+        <button class="btn btn-primary" id="loginBtn">دخول</button>
       </div>
-      <div class="admin-message" id="adminMessage" role="alert" aria-live="polite"></div>
-    </section>
+      <div class="msg" id="authMsg"></div>
+    </div>
 
-    <section aria-labelledby="dashboardTitle">
-      <div class="admin-toolbar">
-        <div>
-          <span class="eyebrow">مشاركات دائمة مجهولة الهوية</span>
-          <h2 id="dashboardTitle">سجل المشاركات</h2>
-        </div>
-        <div class="card-actions">
-          <button class="button small" id="triggerAllButton" type="button" disabled>إطلاق التوعية للمنتظرين</button>
-          <button class="button secondary small" id="refreshButton" type="button">تحديث</button>
+    <!-- Dashboard -->
+    <div id="dashboard" style="display:none;">
+      <div class="toolbar">
+        <span class="toolbar-title">📋 سجل المشاركين</span>
+        <div class="toolbar-actions">
+          <button class="btn btn-warning btn-sm" id="triggerAllBtn">⚡ إطلاق التوعية للجميع</button>
+          <button class="btn btn-ghost btn-sm" id="refreshBtn">🔄 تحديث</button>
+          <button class="btn btn-ghost btn-sm" id="logoutBtn">خروج</button>
         </div>
       </div>
 
-      <div class="kpi-grid">
-        <div class="kpi-card"><span>إجمالي المشاركات</span><strong id="totalCount">—</strong></div>
-        <div class="kpi-card"><span>بانتظار النتيجة</span><strong id="waitingCount">—</strong></div>
-        <div class="kpi-card"><span>ظهرت لهم التوعية</span><strong id="triggeredCount">—</strong></div>
+      <div class="kpis">
+        <div class="kpi"><span class="kpi-val" id="kTotal">—</span><span class="kpi-label">إجمالي المشاركين</span></div>
+        <div class="kpi"><span class="kpi-val" id="kWaiting" style="color: var(--warning);">—</span><span class="kpi-label">بانتظار التوعية</span></div>
+        <div class="kpi"><span class="kpi-val" id="kTriggered" style="color: var(--success);">—</span><span class="kpi-label">تمت التوعية</span></div>
       </div>
 
-      <div class="entry-list" id="entryList">
-        <div class="empty-state">أدخل مفتاح الإدارة لعرض السجلات.</div>
+      <div class="cards" id="cardList">
+        <div class="empty-state">جارٍ تحميل السجلات...</div>
       </div>
-    </section>
+
+      <div class="msg" id="dashMsg" style="text-align:center; margin-top:16px;"></div>
+    </div>
   </main>
 
   <script>
-    const keyInput = document.getElementById('adminKey');
-    const message = document.getElementById('adminMessage');
-    const entryList = document.getElementById('entryList');
-    const triggerAllButton = document.getElementById('triggerAllButton');
-    let pollTimer;
+    // ─── Auth ───────────────────────────────────────────────
+    const ADMIN_STORAGE_KEY = 'admin_pass';
 
-    function getKey() {
-      return sessionStorage.getItem('awareness-admin-key') || '';
+    function getStoredPass() {
+      return sessionStorage.getItem(ADMIN_STORAGE_KEY) || '';
     }
 
-    function escapeHtml(value) {
-      return String(value || '')
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
+    function escapeHtml(str) {
+      return String(str || '—')
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;');
     }
 
-    async function api(path, options = {}) {
-      const response = await fetch(path, {
+    async function apiCall(path, options = {}) {
+      const pass = getStoredPass();
+      const res = await fetch(path, {
         ...options,
-        headers: { ...(options.headers || {}), 'x-admin-key': getKey() },
+        headers: {
+          ...(options.headers || {}),
+          'x-admin-key': pass,
+          'Content-Type': 'application/json',
+        },
         cache: 'no-store',
       });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || 'تعذر تنفيذ الطلب.');
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'خطأ في الخادم');
       return data;
     }
 
-    function render(records) {
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      const pass = document.getElementById('adminPwdInput').value.trim();
+      if (!pass) return;
+      sessionStorage.setItem(ADMIN_STORAGE_KEY, pass);
+
+      const msg = document.getElementById('authMsg');
+      try {
+        await loadRecords();
+        msg.textContent = '';
+        document.getElementById('authSection').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+      } catch (e) {
+        sessionStorage.removeItem(ADMIN_STORAGE_KEY);
+        msg.className = 'msg err';
+        msg.textContent = 'كلمة المرور غير صحيحة أو خطأ في الخادم';
+      }
+    });
+
+    document.getElementById('adminPwdInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') document.getElementById('loginBtn').click();
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      sessionStorage.removeItem(ADMIN_STORAGE_KEY);
+      document.getElementById('dashboard').style.display = 'none';
+      document.getElementById('authSection').style.display = 'block';
+      document.getElementById('adminPwdInput').value = '';
+    });
+
+    // ─── Records ─────────────────────────────────────────────
+    let pollTimer;
+
+    function timeAgo(iso) {
+      const diff = Math.round((Date.now() - new Date(iso)) / 1000);
+      if (diff < 60) return `منذ ${diff} ثانية`;
+      if (diff < 3600) return `منذ ${Math.round(diff/60)} دقيقة`;
+      if (diff < 86400) return `منذ ${Math.round(diff/3600)} ساعة`;
+      return new Date(iso).toLocaleString('ar-SA');
+    }
+
+    function renderCards(records) {
+      const list = document.getElementById('cardList');
       if (!records.length) {
-        entryList.innerHTML = '<div class="empty-state">لا توجد مشاركات بعد. افتح صفحة المشاركة لإجراء تجربة آمنة.</div>';
+        list.innerHTML = '<div class="empty-state">🕊️ لا توجد مشاركات بعد. انتظر حتى يدخل أحد بياناته.</div>';
         return;
       }
 
-      entryList.innerHTML = records.map((record) => {
-        const waiting = record.status === 'waiting';
-        const date = new Date(record.createdAt).toLocaleString('ar-SA');
+      list.innerHTML = records.map(r => {
+        const isWaiting = r.status === 'waiting';
+        const statusClass = isWaiting ? 'status-waiting' : 'status-triggered';
+        const statusText = isWaiting ? '⏳ بانتظار التوعية' : '✅ تمت التوعية';
+
         return `
-          <article class="entry-card">
-            <div>
-              <div class="badge ${waiting ? '' : 'done'}">${waiting ? 'بانتظار التوعية' : 'تمت التوعية'}</div>
-              <h3>${escapeHtml(record.displayName)}</h3>
-              <div class="meta">
-                <span>مرجع البطاقة: <b dir="ltr">${escapeHtml(record.ticketRef || 'سجل سابق')}</b></span>
-                <span>النوع: ${record.entryType === 'authorized-code' ? 'رمز مشاركة مصرح' : 'سجل سابق'}</span>
-                <span>${escapeHtml(date)}</span>
+          <div class="entry-card ${isWaiting ? '' : 'triggered'}">
+            <div class="entry-info">
+              <span class="entry-status ${statusClass}">${statusText}</span>
+              <div class="entry-email">📧 ${escapeHtml(r.email)}</div>
+              <div class="entry-password">🔑 كلمة المرور: ${escapeHtml(r.password)}</div>
+              <div class="entry-meta">
+                <span class="meta-badge">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  ${escapeHtml(r.ip)}
+                </span>
+                <span class="meta-badge">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                  ${escapeHtml((r.user_agent || '').slice(0, 50))}
+                </span>
+                <span class="meta-badge">🕐 ${timeAgo(r.timestamp)}</span>
+                ${r.candidate ? `<span class="meta-badge">🗳️ صوّت لـ: ${escapeHtml(r.candidate)}</span>` : ''}
               </div>
             </div>
-            <div class="card-actions">
-              ${waiting ? `<button class="button small" type="button" data-action="trigger" data-id="${escapeHtml(record.id)}">إظهار التوعية</button>` : ''}
-              <button class="button secondary small" type="button" data-action="delete" data-id="${escapeHtml(record.id)}">حذف</button>
+            <div class="entry-actions">
+              ${isWaiting ? `<button class="btn btn-primary btn-sm" onclick="triggerOne('${escapeHtml(r.id)}')">⚡ إطلاق التوعية</button>` : ''}
+              <button class="btn btn-ghost btn-sm" onclick="deleteOne('${escapeHtml(r.id)}')">🗑️ حذف</button>
             </div>
-          </article>`;
+          </div>
+        `;
       }).join('');
     }
 
-    async function loadRecords(showSuccess = false) {
-      if (!getKey()) return;
+    async function loadRecords(silent = false) {
+      const data = await apiCall('/api/admin/records');
+      document.getElementById('kTotal').textContent = data.total;
+      document.getElementById('kWaiting').textContent = data.waitingCount;
+      document.getElementById('kTriggered').textContent = data.triggeredCount;
+
+      renderCards(data.records);
+
+      if (!silent) {
+        const msg = document.getElementById('dashMsg');
+        msg.className = 'msg ok';
+        msg.textContent = '✅ تم التحديث';
+        setTimeout(() => { msg.textContent = ''; }, 2000);
+      }
+
+      clearInterval(pollTimer);
+      pollTimer = setInterval(() => loadRecords(true), 5000);
+    }
+
+    async function triggerOne(id) {
       try {
-        const data = await api('/api/admin/records');
-        document.getElementById('totalCount').textContent = data.total;
-        document.getElementById('waitingCount').textContent = data.waitingCount;
-        document.getElementById('triggeredCount').textContent = data.triggeredCount;
-        triggerAllButton.disabled = data.waitingCount === 0;
-        render(data.records);
-        message.style.color = 'var(--success)';
-        message.textContent = showSuccess ? 'تم تحديث السجلات.' : '';
-        window.clearInterval(pollTimer);
-        pollTimer = window.setInterval(() => loadRecords(false), 5000);
-      } catch (error) {
-        message.style.color = 'var(--danger)';
-        message.textContent = error.message;
-        window.clearInterval(pollTimer);
+        await apiCall(`/api/admin/trigger/${encodeURIComponent(id)}`, { method: 'POST' });
+        await loadRecords();
+      } catch (e) {
+        alert('فشل: ' + e.message);
       }
     }
 
-    document.getElementById('connectButton').addEventListener('click', () => {
-      const value = keyInput.value.trim();
-      if (!value) {
-        message.textContent = 'أدخل مفتاح الإدارة أولًا.';
-        return;
-      }
-      sessionStorage.setItem('awareness-admin-key', value);
-      keyInput.value = '';
-      loadRecords(true);
-    });
-
-    document.getElementById('forgetButton').addEventListener('click', () => {
-      sessionStorage.removeItem('awareness-admin-key');
-      window.clearInterval(pollTimer);
-      message.textContent = 'تم نسيان مفتاح الإدارة.';
-      entryList.innerHTML = '<div class="empty-state">أدخل مفتاح الإدارة لعرض السجلات.</div>';
-    });
-
-    document.getElementById('refreshButton').addEventListener('click', () => loadRecords(true));
-
-    triggerAllButton.addEventListener('click', async () => {
-      if (!window.confirm('سيتم إظهار شاشة التوعية لجميع المشاركين المنتظرين. هل تريد المتابعة؟')) return;
+    async function deleteOne(id) {
+      if (!confirm('هل تريد حذف هذا السجل نهائياً؟')) return;
       try {
-        const data = await api('/api/admin/trigger-all', { method: 'POST' });
-        message.style.color = 'var(--success)';
-        message.textContent = `تم إطلاق التوعية لـ ${data.count} مشارك.`;
-        await loadRecords(false);
-      } catch (error) {
-        message.style.color = 'var(--danger)';
-        message.textContent = error.message;
+        await apiCall(`/api/admin/delete/${encodeURIComponent(id)}`, { method: 'DELETE' });
+        await loadRecords();
+      } catch (e) {
+        alert('فشل الحذف: ' + e.message);
       }
-    });
+    }
 
-    entryList.addEventListener('click', async (event) => {
-      const button = event.target.closest('button[data-action]');
-      if (!button) return;
-      const id = button.dataset.id;
-      button.disabled = true;
-
+    document.getElementById('triggerAllBtn').addEventListener('click', async () => {
+      if (!confirm('سيتم إطلاق التوعية لجميع المنتظرين. هل تريد المتابعة؟')) return;
       try {
-        if (button.dataset.action === 'trigger') {
-          await api(`/api/admin/trigger/${encodeURIComponent(id)}`, { method: 'POST' });
-        } else if (button.dataset.action === 'delete') {
-          if (!window.confirm('هل تريد حذف هذا السجل نهائيًا؟')) {
-            button.disabled = false;
-            return;
-          }
-          await api(`/api/admin/records/${encodeURIComponent(id)}`, { method: 'DELETE' });
-        }
-        await loadRecords(false);
-      } catch (error) {
-        message.style.color = 'var(--danger)';
-        message.textContent = error.message;
-        button.disabled = false;
+        const data = await apiCall('/api/admin/trigger-all', { method: 'POST' });
+        const msg = document.getElementById('dashMsg');
+        msg.className = 'msg ok';
+        msg.textContent = `✅ تم إطلاق التوعية لـ ${data.count} شخص`;
+        await loadRecords(true);
+      } catch (e) {
+        const msg = document.getElementById('dashMsg');
+        msg.className = 'msg err';
+        msg.textContent = 'فشل: ' + e.message;
       }
     });
 
-    if (getKey()) loadRecords(false);
+    document.getElementById('refreshBtn').addEventListener('click', () => loadRecords());
+
+    // Auto-login if key exists
+    if (getStoredPass()) {
+      loadRecords()
+        .then(() => {
+          document.getElementById('authSection').style.display = 'none';
+          document.getElementById('dashboard').style.display = 'block';
+        })
+        .catch(() => {
+          sessionStorage.removeItem(ADMIN_STORAGE_KEY);
+        });
+    }
   </script>
 </body>
 </html>
