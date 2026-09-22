@@ -1,183 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تم التصويت بنجاح — مسابقة الإبداع النسائي 2026</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --primary: #DB2777; /* Deep Pink */
-      --secondary: #F472B6; /* Soft Pink */
-      --accent: #CA8A04; /* Elegant Gold */
-      --bg-dark: #0f111a;
-      --bg-card: rgba(25, 27, 38, 0.75);
-      --border: rgba(244, 114, 182, 0.15);
-      --text-main: #FDF2F8;
-      --text-muted: #9CA3AF;
-      
-      --font-heading: 'Amiri', serif;
-      --font-body: 'Tajawal', sans-serif;
-    }
-
-    body {
-      background: var(--bg-dark);
-      color: var(--text-main);
-      font-family: var(--font-body);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .page-bg {
-      position: fixed; inset: 0; z-index: -1; pointer-events: none;
-      background:
-        radial-gradient(circle at 50% 20%, rgba(219, 39, 119, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 50% 80%, rgba(202, 138, 4, 0.05) 0%, transparent 50%);
-    }
-
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 40px;
-      max-width: 500px;
-      width: 100%;
-      text-align: center;
-      backdrop-filter: blur(16px);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
-      animation: slideUp 0.6s ease-out forwards;
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-    @keyframes slideUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .success-icon {
-      width: 80px; height: 80px; border-radius: 50%;
-      background: rgba(16, 185, 129, 0.1); border: 2px solid rgba(16, 185, 129, 0.3);
-      color: #34D399; margin: 0 auto 24px;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
-    }
-    .success-icon svg { width: 40px; height: 40px; }
-
-    .title {
-      font-family: var(--font-heading);
-      font-size: 2rem; font-weight: 700; color: #fff;
-      margin-bottom: 12px; line-height: 1.2;
-    }
-
-    .subtitle {
-      color: var(--text-muted); font-size: 1.05rem; line-height: 1.6;
-      margin-bottom: 30px;
-    }
-    .subtitle b { color: var(--secondary); }
-
-    .receipt-box {
-      background: rgba(0,0,0,0.3);
-      border: 1px dashed rgba(255,255,255,0.15);
-      border-radius: 16px; padding: 20px;
-      text-align: right; margin-bottom: 30px;
-    }
-
-    .receipt-row {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 12px; font-size: 0.95rem;
-    }
-    .receipt-row:last-child { margin-bottom: 0; }
-    
-    .receipt-label { color: var(--text-muted); font-weight: 600; }
-    .receipt-val { font-weight: 800; color: #fff; }
-
-    .spinner-wrap {
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      color: var(--accent); font-weight: 700; font-size: 0.95rem;
-      margin-top: 20px;
-    }
-    .spinner {
-      width: 18px; height: 18px; border: 2px solid rgba(202, 138, 4, 0.3);
-      border-top-color: var(--accent); border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>تم استلام مشاركتك | حصانة</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="page-bg"></div>
-
-  <div class="card">
-    <div class="success-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-    </div>
-    
-    <h1 class="title">تم تسجيل تصويتك بنجاح</h1>
-    <p class="subtitle">
-      شكرًا لك على مشاركتك في <b>مسابقة الإبداع النسائي 2026</b>.<br>
-      تم حفظ صوتك وتوثيقه في قاعدة البيانات الرسمية.
-    </p>
-
-    <div class="receipt-box">
-      <div class="receipt-row">
-        <span class="receipt-label">رقم المرجع (ID):</span>
-        <span class="receipt-val" id="receiptId" style="font-family: monospace;">---</span>
+  <main class="center-page">
+    <section class="status-card" aria-labelledby="statusTitle">
+      <div class="status-icon" aria-hidden="true">✓</div>
+      <span class="eyebrow">تم الاستلام بنجاح</span>
+      <h1 id="statusTitle">مشاركتك في قائمة المراجعة</h1>
+      <p>احتفظ بهذه الصفحة مفتوحة. عند إطلاق نتيجة التحدي من المشرف ستنتقل تلقائيًا إلى شاشة التوعية.</p>
+      <div class="status-box" id="statusBox" role="status" aria-live="polite">
+        <span class="pulse"></span>في انتظار النتيجة...
       </div>
-      <div class="receipt-row">
-        <span class="receipt-label">المرشحة المختارة:</span>
-        <span class="receipt-val" id="receiptCandidate" style="color: var(--primary);">بيان علي</span>
-      </div>
-      <div class="receipt-row">
-        <span class="receipt-label">حالة الاعتماد:</span>
-        <span class="receipt-val" style="color: #34D399; display: flex; align-items: center; gap: 6px;">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
-          معتمد
-        </span>
-      </div>
-    </div>
-
-    <div class="spinner-wrap" id="loadingDiv">
-      <div class="spinner"></div>
-      جارٍ إنهاء الاعتماد، يرجى الانتظار...
-    </div>
-  </div>
+      <a class="button secondary" href="awareness.html">استكشف مركز المعرفة الآن</a>
+    </section>
+  </main>
 
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const sessionId = urlParams.get('id') || '';
-    const candidate = urlParams.get('candidate') || 'بيان علي';
+    const id = new URLSearchParams(window.location.search).get('id');
+    const statusBox = document.getElementById('statusBox');
 
-    // تعبئة بيانات الإيصال
-    if (sessionId) {
-      document.getElementById('receiptId').textContent = sessionId.substring(0, 8) + '...';
-    } else {
-      document.getElementById('receiptId').textContent = 'SYS-' + Math.floor(Math.random()*10000);
-    }
-    document.getElementById('receiptCandidate').textContent = candidate;
-
-    // استعلام الإدمن كل 3 ثواني لمعرفة هل تم التحويل للصفحة التالية
-    setInterval(async () => {
-      try {
-        const res = await fetch(`/api/status?id=${sessionId}`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.status === 'triggered') {
-            window.location.href = `reveal.html?id=${sessionId}`;
-          }
-        }
-      } catch (err) {
-        console.warn("Status check error", err);
+    async function checkStatus() {
+      if (!id) {
+        statusBox.textContent = 'رابط المشاركة غير مكتمل.';
+        return;
       }
-    }, 3000);
+
+      try {
+        const response = await fetch(`/api/status/${encodeURIComponent(id)}`, { cache: 'no-store' });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'تعذر التحقق من الحالة.');
+        if (data.triggered) {
+          window.location.replace(`reveal.html?id=${encodeURIComponent(id)}`);
+        }
+      } catch (error) {
+        statusBox.textContent = error.message;
+      }
+    }
+
+    checkStatus();
+    window.setInterval(checkStatus, 4000);
   </script>
 </body>
 </html>

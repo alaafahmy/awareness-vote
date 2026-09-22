@@ -5,3 +5,13 @@ services:
     plan: free
     buildCommand: npm install
     startCommand: node server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20.19.0
+      - key: MONGODB_URI
+        sync: false
+      - key: ADMIN_KEY
+        sync: false
+      - key: DB_NAME
+        value: awareness_competition

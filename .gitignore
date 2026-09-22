@@ -9,3 +9,4 @@ antigravity_global_skills/
 
 .vercel
 .env*
+!.env.example
